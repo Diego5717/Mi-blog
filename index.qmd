@@ -1,0 +1,12 @@
+---
+title: "Mi Blog de Física"
+subtitle: "Ensayos y simulaciones para aprender y compartir."
+listing:
+  contents: posts        # busca entradas en la carpeta posts/
+  sort: "date desc"      # más recientes primero
+  type: default          # prueba también: grid, table
+  categories: true       # muestra filtros por categoría
+  feed: true             # genera RSS
+page-layout: full
+title-block-banner: true
+---

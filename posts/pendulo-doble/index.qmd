@@ -1,0 +1,109 @@
+---
+title: "El péndulo doble: cuando la física se vuelve impredecible"
+description: "Un sistema con ecuaciones deterministas que aun así no puedes predecir. Lo simulamos desde cero."
+author: "Diego"
+date: "2026-06-15"
+categories: [simulaciones, mecánica, caos]
+image: pendulo_doble.gif
+---
+
+## La idea
+
+Un péndulo simple es aburrido: oscila igual una y otra vez. Pero si le
+cuelgas **otro péndulo del extremo**, pasa algo extraño. El sistema sigue
+reglas perfectamente deterministas —pura mecánica newtoniana— y aun así su
+movimiento se vuelve **imposible de predecir** a largo plazo. Cambias el
+ángulo inicial una milésima y, unos segundos después, el movimiento es
+completamente distinto. Eso es **caos**.
+
+## Las ecuaciones
+
+Llamemos $\theta_1$ y $\theta_2$ a los ángulos de cada varilla. Aplicando
+las ecuaciones de Lagrange se obtiene un sistema acoplado para las
+aceleraciones angulares. Por ejemplo, para la primera masa:
+
+$$
+\ddot{\theta}_1 = \frac{m_2 L_1 \dot{\theta}_1^2 \sin\Delta\cos\Delta
++ m_2 g \sin\theta_2 \cos\Delta + m_2 L_2 \dot{\theta}_2^2 \sin\Delta
+- (m_1+m_2) g \sin\theta_1}{(m_1+m_2)L_1 - m_2 L_1 \cos^2\Delta}
+$$
+
+donde $\Delta = \theta_2 - \theta_1$. No hay solución analítica: hay que
+integrar numéricamente. Usamos **Runge-Kutta de 4to orden**.
+
+## El código
+
+```{python}
+#| label: simulacion
+#| fig-cap: "Péndulo doble integrado con RK4. La estela roja marca el extremo."
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
+
+g = 9.81
+L1, L2 = 1.0, 1.0
+m1, m2 = 1.0, 1.0
+
+def derivadas(s):
+    th1, w1, th2, w2 = s
+    d = th2 - th1
+    den = (m1 + m2)*L1 - m2*L1*np.cos(d)**2
+    dw1 = (m2*L1*w1**2*np.sin(d)*np.cos(d) + m2*g*np.sin(th2)*np.cos(d)
+           + m2*L2*w2**2*np.sin(d) - (m1+m2)*g*np.sin(th1)) / den
+    den2 = (L2/L1)*den
+    dw2 = (-m2*L2*w2**2*np.sin(d)*np.cos(d) + (m1+m2)*g*np.sin(th1)*np.cos(d)
+           - (m1+m2)*L1*w1**2*np.sin(d) - (m1+m2)*g*np.sin(th2)) / den2
+    return np.array([w1, dw1, w2, dw2])
+
+def rk4(s, dt):
+    k1 = derivadas(s)
+    k2 = derivadas(s + dt/2*k1)
+    k3 = derivadas(s + dt/2*k2)
+    k4 = derivadas(s + dt*k3)
+    return s + dt/6*(k1 + 2*k2 + 2*k3 + k4)
+
+dt, pasos = 0.02, 500
+s = np.array([np.pi/2, 0.0, np.pi/2 + 0.01, 0.0])
+tray = np.empty((pasos, 4))
+for i in range(pasos):
+    tray[i] = s
+    s = rk4(s, dt)
+
+th1, th2 = tray[:, 0], tray[:, 2]
+x1, y1 = L1*np.sin(th1), -L1*np.cos(th1)
+x2, y2 = x1 + L2*np.sin(th2), y1 - L2*np.cos(th2)
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.set_xlim(-2.2, 2.2); ax.set_ylim(-2.2, 2.2)
+ax.set_aspect('equal'); ax.axis('off')
+fig.patch.set_facecolor('#0d1117'); ax.set_facecolor('#0d1117')
+linea, = ax.plot([], [], 'o-', lw=2, color='#58a6ff', markersize=8)
+estela, = ax.plot([], [], '-', lw=1, color='#ff7b72', alpha=0.6)
+xs, ys = [], []
+
+def animar(i):
+    linea.set_data([0, x1[i], x2[i]], [0, y1[i], y2[i]])
+    xs.append(x2[i]); ys.append(y2[i])
+    estela.set_data(xs[-80:], ys[-80:])
+    return linea, estela
+
+anim = FuncAnimation(fig, animar, frames=pasos, interval=20, blit=True)
+anim.save('pendulo_doble.gif', writer=PillowWriter(fps=30), dpi=80)
+plt.close()
+```
+
+![](pendulo_doble.gif)
+
+## Para llevar a Instagram
+
+El archivo `pendulo_doble.gif` que se generó es exactamente lo que subes a
+Instagram (o conviértelo a `.mp4` para mejor calidad). Cambia `dpi=80` por
+`dpi=150` para más resolución, o ajusta el ángulo inicial en `s = np.array([...])`
+para obtener un movimiento totalmente distinto. Esa es la gracia del caos.
+
+## Para experimentar
+
+- ¿Qué pasa si haces `m2` mucho más pesada que `m1`?
+- Lanza **dos** péndulos con ángulos casi idénticos y compáralos: verás cómo
+  se separan. Esa es la "sensibilidad a las condiciones iniciales".

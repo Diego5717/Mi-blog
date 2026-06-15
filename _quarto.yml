@@ -1,0 +1,30 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Mi Blog de Física"
+  description: "Ensayos y simulaciones para aprender física."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: about.qmd
+        text: Sobre mí
+    right:
+      - icon: github
+        href: https://github.com/TU_USUARIO/mi-blog
+      - icon: instagram
+        href: https://instagram.com/TU_USUARIO
+
+format:
+  html:
+    theme: cosmo          # cambia por: darkly, flatly, solar, etc.
+    css: styles.css
+    toc: true             # tabla de contenidos automática
+    code-fold: true       # el código aparece plegado (clic para ver)
+    code-tools: true
+
+# Ejecuta el código Python al renderizar
+execute:
+  freeze: auto            # solo re-ejecuta si cambia el código (ahorra tiempo)

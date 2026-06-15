@@ -1,0 +1,17 @@
+/* Pequeños ajustes de estilo. Edita a tu gusto. */
+
+.quarto-title-block .description {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* Espaciado más cómodo para leer ensayos largos */
+p {
+  line-height: 1.7;
+}
+
+/* Citas destacadas */
+blockquote {
+  border-left: 3px solid #58a6ff;
+  font-style: italic;
+}

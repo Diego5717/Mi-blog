@@ -1,0 +1,23 @@
+---
+title: "Sobre mí"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/TU_USUARIO
+    - icon: instagram
+      text: Instagram
+      href: https://instagram.com/TU_USUARIO
+    - icon: envelope
+      text: Correo
+      href: mailto:diego23@ciencias.unam.mx
+---
+
+Soy estudiante de Física en la Facultad de Ciencias de la UNAM. En este
+blog escribo ensayos sobre temas que me interesan y comparto simulaciones
+para hacer la física más visual e intuitiva.
+
+El objetivo es simple: aprender explicando, y de paso que mis amigos
+le pierdan el miedo a la física.

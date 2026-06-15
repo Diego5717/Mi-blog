@@ -1,0 +1,23 @@
+---
+title: "Por qué empecé este blog"
+description: "Una nota corta sobre la idea detrás de todo esto."
+author: "Diego"
+date: "2026-06-15"
+categories: [ensayos]
+---
+
+Siempre he creído que uno entiende algo de verdad solo cuando es capaz de
+explicárselo a alguien más. Este blog es mi intento de hacer justo eso:
+tomar ideas de física que me parecen hermosas y volverlas a contar con mis
+propias palabras, mis propias simulaciones y mis propios errores.
+
+## Qué voy a publicar
+
+- **Ensayos** sobre temas que estoy estudiando o que simplemente me dan vueltas.
+- **Simulaciones** numéricas con animaciones, para *ver* la física en movimiento.
+- Notas de lo que voy aprendiendo en la carrera.
+
+Si llegaste hasta aquí: gracias por leer. La primera simulación ya está
+publicada, dale un vistazo.
+
+> "Lo que no puedo crear, no lo entiendo." — Richard Feynman
