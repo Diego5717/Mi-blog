@@ -3,8 +3,8 @@ project:
   output-dir: _site
 
 website:
-  title: "Mi Blog de Física"
-  description: "Ensayos y simulaciones para aprender física."
+  title: "Mi Blog"
+  description: "Un espacio para aprender física."
   navbar:
     left:
       - href: index.qmd
@@ -19,7 +19,7 @@ website:
 
 format:
   html:
-    theme: solar        # cambia por: darkly, flatly, solar, etc.
+    theme: flatly      # cambia por: darkly, flatly, solar, etc.
     css: styles.css
     toc: true             # tabla de contenidos automática
     code-fold: true       # el código aparece plegado (clic para ver)
