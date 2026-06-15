@@ -1,5 +1,5 @@
 ---
-title: "Mi Blog de Física"
+title: "Mi Blog"
 subtitle: "Ensayos y simulaciones para aprender y compartir."
 listing:
   contents: posts        # busca entradas en la carpeta posts/
