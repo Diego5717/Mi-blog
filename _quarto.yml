@@ -19,7 +19,7 @@ website:
 
 format:
   html:
-    theme: cosmo          # cambia por: darkly, flatly, solar, etc.
+    theme: solar        # cambia por: darkly, flatly, solar, etc.
     css: styles.css
     toc: true             # tabla de contenidos automática
     code-fold: true       # el código aparece plegado (clic para ver)
