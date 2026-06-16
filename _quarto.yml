@@ -3,8 +3,8 @@ project:
   output-dir: _site
 
 website:
-  title: "Mi Blog"
-  description: "Un espacio para aprender física."
+  title: "Blog Personal"
+  description: "Un espacio para aprender sobre física."
   navbar:
     left:
       - href: index.qmd
@@ -13,13 +13,13 @@ website:
         text: Sobre mí
     right:
       - icon: github
-        href: https://github.com/TU_USUARIO/mi-blog
+        href: https://github.com/Diego5717/mi-blog
       - icon: instagram
         href: https://instagram.com/TU_USUARIO
 
 format:
   html:
-    theme: flatly      # cambia por: darkly, flatly, solar, etc.
+    theme: merlot      # cambia por: darkly, flatly, solar, etc.
     css: styles.css
     toc: true             # tabla de contenidos automática
     code-fold: true       # el código aparece plegado (clic para ver)
