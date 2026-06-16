@@ -1,0 +1,7 @@
+---
+title: "Otros"
+listing:
+  contents: posts/otros
+  sort: "date desc"
+  type: default
+---
