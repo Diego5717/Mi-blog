@@ -1,0 +1,7 @@
+---
+title: "Ensayos"
+listing: 
+  contents: posts/ensayos
+  sort: "date desc"
+  type: default
+---
