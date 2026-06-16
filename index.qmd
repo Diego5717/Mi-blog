@@ -1,12 +1,18 @@
 ---
-title: "Mi Blog"
+title: "Un pequeño blog de Física"
 subtitle: "Ensayos y simulaciones para aprender y compartir."
-listing:
-  contents: posts        # busca entradas en la carpeta posts/
-  sort: "date desc"      # más recientes primero
-  type: default          # prueba también: grid, table
-  categories: true       # muestra filtros por categoría
-  feed: true             # genera RSS
-page-layout: full
 title-block-banner: true
 ---
+
+Bienvenido. Aquí escribo ensayos sobre lo que voy aprendiendo y comparto simulaciones para hacer la física más visual e intuitiva.
+
+## Secciones
+
+- **[Ensayos](ensayos.qmd)** — reflexiones y temas que estoy estudiando.
+- **[Física](fisica.qmd)** — simulaciones por área:
+  - [Mecánica](fisica.qmd#mecanica)
+  - [Electromagnetismo](fisica.qmd#electromagnetismo)
+  - [Física estadística](fisica.qmd#estadistica)
+  - [Cuántica](fisica.qmd#cuantica)
+  - [Relatividad](fisica.qmd#relatividad)
+- **[Otros](otros.qmd)** — todo lo demás.
