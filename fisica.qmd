@@ -1,0 +1,26 @@
+---
+title: "Física"
+listing:
+  id: sims-mecanica
+  contents: posts/fisica/mecanica
+  sort: "date desc"
+  type: default
+---
+Temas por área.
+
+## Mecánica {#mecanica}
+
+::: {#sims-mecanica}
+:::
+
+## Física estadística {#estadistica}
+
+*Próximamente.*
+
+## Cuántica {#cuantica}
+
+*Próximamente.*
+
+## Relatividad {#relatividad}
+
+*Próximamente.*
