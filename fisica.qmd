@@ -10,8 +10,7 @@ Temas por área.
 
 ## Mecánica {#mecanica}
 
-::: {#sims-mecanica}
-:::
+contents: posts/mecanica/pendulo-doble
 
 ## Física estadística {#estadistica}
 
