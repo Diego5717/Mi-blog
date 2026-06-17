@@ -1,6 +1,6 @@
 ---
 title: "Sobre mí"
-image: profile.jpg
+image: logoFC_3.png
 about:
   template: jolla
   links:
