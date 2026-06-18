@@ -1,18 +1,50 @@
 ---
-title: "Un pequeño blog de Física"
-subtitle: "Ensayos y simulaciones para aprender y compartir."
+title: "Mi Blog de Física"
+subtitle: "Simulaciones y ensayos para entender la física de otra forma"
 title-block-banner: true
+toc: false
 ---
 
-Bienvenido. Aquí escribo ensayos sobre lo que voy aprendiendo y comparto simulaciones para hacer la física más visual e intuitiva.
+::: {.hero-blurb}
+Hola. Soy Diego, físico de la UNAM. Aquí construyo simulaciones desde cero y escribo sobre lo que voy aprendiendo — para entender mejor, y para compartir.
+:::
 
-## Secciones
+## Simulaciones
 
-- **[Ensayos](ensayos.qmd)** — reflexiones y temas que estoy estudiando.
-- **[Física](fisica.qmd)** — simulaciones por área:
-  - [Mecánica](fisica.qmd#mecanica)
-  - [Electromagnetismo](fisica.qmd#electromagnetismo)
-  - [Física estadística](fisica.qmd#estadistica)
-  - [Cuántica](fisica.qmd#cuantica)
-  - [Relatividad](fisica.qmd#relatividad)
-- **[Otros](otros.qmd)** — todo lo demás.
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
+### El péndulo doble
+
+[Mecánica]{.tag} [Caos]{.tag}
+
+Un sistema completamente determinista que resulta imposible de predecir. Lo integramos con Runge-Kutta de 4to orden y lo animamos desde cero.
+
+[Ver simulación →](posts/mecanica/pendulo-doble/index.qmd){.btn-ver}
+:::
+:::
+
+:::
+
+## Ensayos
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
+### Por qué empecé este blog
+
+[Ensayos]{.tag}
+
+Sobre la diferencia entre saber algo y poder explicarlo, y por qué Feynman tenía razón.
+
+[Leer →](posts/ensayos/bienvenida/index.qmd){.btn-ver}
+:::
+:::
+
+:::
+
+---
+
+[Física](fisica.qmd) · [Ensayos](ensayos.qmd) · [Sobre mí](about.qmd)

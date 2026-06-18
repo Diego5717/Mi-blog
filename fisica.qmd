@@ -1,25 +1,48 @@
 ---
 title: "Física"
-listing:
-  id: sims-mecanica
-  contents: posts/fisica/mecanica
-  sort: "date desc"
-  type: default
+toc: false
 ---
-Temas por área.
+
+Simulaciones organizadas por tema.
 
 ## Mecánica {#mecanica}
 
-contents: posts/mecanica/pendulo-doble
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
+### El péndulo doble
+
+[Mecánica]{.tag} [Caos]{.tag}
+
+Un sistema con ecuaciones perfectamente deterministas y movimiento completamente impredecible. Animado con RK4.
+
+[Ver →](posts/mecanica/pendulo-doble/index.qmd){.btn-ver}
+:::
+:::
+
+:::
+
+## Electromagnetismo {#electromagnetismo}
+
+::: {.pronto}
+Próximamente.
+:::
 
 ## Física estadística {#estadistica}
 
-*Próximamente.*
+::: {.pronto}
+Próximamente.
+:::
 
 ## Cuántica {#cuantica}
 
-*Próximamente.*
+::: {.pronto}
+Próximamente.
+:::
 
 ## Relatividad {#relatividad}
 
-*Próximamente.*
+::: {.pronto}
+Próximamente.
+:::
