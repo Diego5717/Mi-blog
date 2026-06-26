@@ -2,7 +2,9 @@
 title: "Sobre mí"
 image: logoFC_3.png
 about:
-  template: jolla
+  template: trestles
+  image-shape: rectangle
+  image-width: 220px
   links:
     - icon: github
       text: GitHub
