@@ -104,6 +104,17 @@ blockquote {
   opacity: 0.9;
 }
 
+/* ── Foto en Sobre mí: forzar rectangular ────────────── */
+
+.about-image,
+.about-image img,
+img.about-image,
+#quarto-content img.about-image,
+.about.trestles .about-image {
+  border-radius: 0 !important;
+  object-fit: contain;
+}
+
 /* ── Sección "próximamente" ──────────────────────────── */
 
 .pronto {
