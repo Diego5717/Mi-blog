@@ -6,7 +6,7 @@ toc: false
 ---
 
 ::: {.hero-blurb}
-Hola. Soy Diego, físico de la UNAM. Aquí construyo simulaciones desde cero y escribo sobre lo que voy aprendiendo — para entender mejor, y para compartir.
+Hola. Aquí construyo simulaciones, escribo sobre lo que voy aprendiendo y pensando para entender mejor las cosas del dia a dia para compartir.
 :::
 
 ## Simulaciones
