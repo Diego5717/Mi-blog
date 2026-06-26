@@ -7,7 +7,7 @@ website:
   description: "Un espacio para aprender sobre física."
   navbar:
     left:
-      - href: inicio.qmd
+      - href: index.qmd
         text: Inicio
       - href: about.qmd
         text: Sobre mí

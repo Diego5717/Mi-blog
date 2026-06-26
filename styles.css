@@ -1,17 +1,113 @@
-/* Pequeños ajustes de estilo. Edita a tu gusto. */
+/* ── Tipografía principal ─────────────────────────────── */
 
-.quarto-title-block .description {
+h1, .quarto-title h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid #58a6ff;
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #79c0ff;
+  margin-top: 0;
+}
+
+/* Subtítulo del bloque título */
+.quarto-title-block .description,
+.quarto-title-meta-heading {
   font-size: 1.1rem;
   font-style: italic;
+  opacity: 0.85;
 }
 
-/* Espaciado más cómodo para leer ensayos largos */
+/* Párrafos */
 p {
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
-/* Citas destacadas */
+/* Citas */
 blockquote {
   border-left: 3px solid #58a6ff;
   font-style: italic;
+  opacity: 0.9;
+}
+
+/* ── Cards de simulación ──────────────────────────────── */
+
+.sim-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: block;
+}
+
+.sim-card:hover {
+  border-color: #58a6ff;
+  transform: translateY(-3px);
+}
+
+.sim-card p {
+  font-size: 0.93rem;
+  opacity: 0.8;
+  margin-bottom: 0.8rem;
+}
+
+/* Etiquetas de categoría */
+.tag {
+  display: inline-block;
+  background: rgba(88, 166, 255, 0.12);
+  color: #58a6ff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+  margin-right: 0.35rem;
+  margin-bottom: 0.7rem;
+}
+
+/* Enlace "Ver →" */
+.btn-ver {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #58a6ff;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.btn-ver:hover {
+  border-bottom-color: #58a6ff;
+}
+
+/* ── Blurb intro en inicio ───────────────────────────── */
+
+.hero-blurb {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
+/* ── Sección "próximamente" ──────────────────────────── */
+
+.pronto {
+  font-style: italic;
+  opacity: 0.5;
+  font-size: 0.9rem;
 }
