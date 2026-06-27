@@ -6,7 +6,7 @@ toc: false
 ---
 
 ::: {.hero-blurb}
-Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato de responder algunas de las cosas que me pregunto sobre fenomenos que experimento a través de mis días. Con ayuda de mi formación como físico y por medio de métodos científicos. 
+Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato de responder algunas de las cosas que me pregunto sobre fenómenos que experimento a través de mis días. Con ayuda de mi formación como físico y por medio de métodos científicos. 
 :::
 
 ## Simulaciones
