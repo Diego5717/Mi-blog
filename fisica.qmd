@@ -3,7 +3,7 @@ title: "Física"
 toc: false
 ---
 
-Simulaciones organizadas por tema.
+Divido por las áreas de la física, aqui se pueden ver los pequeños estudios de los fenomenos físicos que he hecho e iré haciendo. 
 
 ## Mecánica {#mecanica}
 
