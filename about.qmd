@@ -4,18 +4,17 @@ image: logoFC_3.png
 about:
   template: trestles
   image-shape: rectangle
-  image-width: 220px
+  image-width: 620px
   links:
     - icon: github
       text: GitHub
       href: https://github.com/Diego5717
     - icon: instagram
       text: Instagram
-      href: https://instagram.com/TU_USUARIO
+      href: https://instagram.com/diego_inocente23
     - icon: envelope
       text: Correo
       href: mailto:diego23@ciencias.unam.mx
 ---
 
-Estudié Física en la Facultad de Ciencias de la UNAM. Este
-espacio esta pensado para escribir ensayos, simulaciones y mas sobre temas de física, con el fin de hacer la física más visual e intuitiva. 
+Estudié Física en la Facultad de Ciencias de la UNAM. Al terminar mis materias de la licenciatura de física, empece a sentir la necesidad de hacer algo al respecto sobre el tiempo que pasé en la escuela. Probar y explotar mi aprendizaje a través de la licenciatura, no solo sobre los temas y las materias que curse, sino las herramientas y habilidades que desarrollé. Tambien para obligarme a ir mas lejos para aprender sobre más temas, desarrollar mas habilidades y herramientas. Si te interesa aprender sobre un tema de física y no lo encontraste aquí, contactame y puedo trabajar en ello.
