@@ -1,12 +1,12 @@
 ---
-title: "Mi Blog de Física"
-subtitle: "Simulaciones y ensayos para entender la física de otra forma"
+title: "Física en la vida cotidiana"
+subtitle: "Simulaciones y ensayos para entender la física de otra forma."
 title-block-banner: true
 toc: false
 ---
 
 ::: {.hero-blurb}
-Hola. Aquí construyo simulaciones, escribo sobre lo que voy aprendiendo y pensando para entender mejor las cosas del dia a dia para compartir.
+Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato de responder algunas de las cosas que me pregunto sobre fenomenos que experimento a través de mis días. Con ayuda de mi formación como físico y por medio de métodos científicos. 
 :::
 
 ## Simulaciones
@@ -46,5 +46,3 @@ Sobre la diferencia entre saber algo y poder explicarlo, y por qué Feynman ten�
 :::
 
 ---
-
-[Física](fisica.qmd) · [Ensayos](ensayos.qmd) · [Sobre mí](about.qmd)
