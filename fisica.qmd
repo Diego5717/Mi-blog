@@ -17,7 +17,7 @@ Dividido por las áreas de la física, aqui se pueden ver los pequeños estudios
 
 Un sistema con ecuaciones perfectamente deterministas y movimiento completamente impredecible. Animado con RK4.
 
-[Ver →](posts/mecanica/pendulo-doble/index.qmd){.btn-ver}
+[Ver →](posts/mecanica/monumento_indep/index.qmd){.btn-ver}
 :::
 :::
 
