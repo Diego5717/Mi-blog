@@ -1,9 +1,9 @@
 ---
-title: "El péndulo doble: cuando la física se vuelve impredecible"
-description: "Un sistema con ecuaciones deterministas que aun así no puedes predecir. Lo simulamos desde cero."
+title: "Aproximación de la multitud como fluido"
+description: "Simulación del comportamiento de la multitud en el monumento a la independecia de la CDMX el día del partido de México vs Ecuador del mundial 2026."
 author: "Diego"
-date: "2026-06-15"
-categories: [simulaciones, mecánica, caos]
+date: "XX-07-2026"
+categories: [simulaciones, mecánica, fluidos]
 image: pendulo_doble.gif
 ---
 
