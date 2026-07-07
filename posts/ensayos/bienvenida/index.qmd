@@ -6,18 +6,9 @@ date: "2026-06-15"
 categories: [ensayos]
 ---
 
-Siempre he creído que uno entiende algo de verdad solo cuando es capaz de
-explicárselo a alguien más. Este blog es mi intento de hacer justo eso:
-tomar ideas de física que me parecen hermosas y volverlas a contar con mis
-propias palabras, mis propias simulaciones y mis propios errores.
 
-## Qué voy a publicar
+En lo personal, los sentimientos predominates a través de los 6 años de la licenciatura fueron cambiando, desde la emoción de empezar, arraigo, hasta agotamento y un poco de desesperación. Sin embargo, en mi penúltimo semestre, al empezar mi servicio social, las cosas empezaron a cambiar. Después de 6 años de materias teóricas y exprimentales, aprendí y mejoré habilidades que a veces no ponía en practica o al menos asi se sentía. Mi servicio social se trató de apoyo a la investigación, donde poco a poco sentí que ponia en practica mis habilidades, virtudes, asi como aprender otras y exponer debilidades. Creo que un sentimiento en común de los estudiantes, es la preocupación del después de la licenciatura, sí habrá campo laboral, sí es el suficiente para todos y si da para una vida digna. A pesar de que mis deseos son dedicarme a lo académico, sigue siendo un campo laboral, tal vez un poco diferente a lo que era mi estándar, pero esa carga se empezó a devanecer en mí cuando entré a apoyar a la investigación, ya que sé que lo que quiero es ser científico. Tengo la idea de lo que involucra quedarme en la vida académica, es un alivio saber que ya estoy en el camino, la sensación de preocupación nunca se va, supongo que es algo de los seres humanos.   
 
-- **Ensayos** sobre temas que estoy estudiando o que simplemente me dan vueltas.
-- **Simulaciones** numéricas con animaciones, para *ver* la física en movimiento.
-- Notas de lo que voy aprendiendo en la carrera.
+Al recordar mis primeros semestres, no pudé dejar de pensar en los detalles que he olvidado de las materias que curcé. Tambien, por temas internos y externos a la facultad, a veces quise saber mas sobre ciertas materias. Por lo que aquí nacen unas de las razones para empezar este blog, como recordar y aprender temas que me pueden causar interés desde el punto de vista de la ciencia, fomentando y mejorando habilidades como investigación, redacción, exposición, entre otras. He dado asesorias a alumnos de nivel primaria, secundaria y medio superior, ha sido un proyecto itermitente, pero nunca lo he ovidado y últimamente, el número de mis alumnos ha ido aumentando. He aprendido las maneras de enseñar, no todos aprenden igual, ni al mismo tiempo, por lo que tambien había estado pensando como hacer un poco mas didactico mi enseñar y ayudar a que aprendan mejor, mas rápido las ideas que trato de enseñar. 
 
-Si llegaste hasta aquí: gracias por leer. La primera simulación ya está
-publicada, dale un vistazo.
-
-> "Lo que no puedo crear, no lo entiendo." — Richard Feynman
+Por lo tanto, nace esta idea, crear un espacio donde pueda aprender muchas cosas, ademas alguien mas pueda leer, interesarse y aprender un poco. Compartir un blog suena muy extraño para como está la tecnología en estos momentos, por lo que lo complementaré compartiendo reels en mi instagram, así le doyun buen uso a mi red social, uno mas creativo y mis conocidos, si les interesa, podran aprender un poco más de la ciencia en la vida, también pueden preguntar y proponer sobre este espacio. Como científico que quiero ser, debo estar apendiendo y mejorando a investigar, redactar, pensar, solucionar, etc. Listo para recibir críticas y cuestionamientos sobre mi trabajo, mejorar la habilidad de transmitirlo y defenderlo, ya que ese es el trabajo que la vida académica exige. 
