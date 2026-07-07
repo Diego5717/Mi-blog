@@ -2,7 +2,7 @@
 title: "Por qué empecé este blog"
 description: "Una nota corta sobre la idea detrás de todo esto."
 author: "Diego"
-date: "2026-06-15"
+date: "06-07-2026"
 categories: [ensayos]
 ---
 
