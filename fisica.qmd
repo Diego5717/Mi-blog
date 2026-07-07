@@ -11,11 +11,11 @@ Dividido por las áreas de la física, aqui se pueden ver los pequeños estudios
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.sim-card}
-### El péndulo doble
+### Estudio de una multitud por medio de una aproximación de fluidos.
 
-[Mecánica]{.tag} [Caos]{.tag}
+[Mecánica]{.tag} [Fluidos]{.tag}
 
-Un sistema con ecuaciones perfectamente deterministas y movimiento completamente impredecible. Animado con RK4.
+El estudio del comportamiento de las casi 900 mil personas que asistieron a la vez al monumento de la independencia para celebrar la victoria de México sobre ecuador en el mundial del 2026.
 
 [Ver →](posts/mecanica/monumento_indep/index.qmd){.btn-ver}
 :::
