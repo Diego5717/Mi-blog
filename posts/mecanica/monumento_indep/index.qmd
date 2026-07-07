@@ -107,7 +107,7 @@ Vale la pena notar el papel de la geometría: en versiones preliminares con call
 
 ## La densidad no es el peligro
 
-{{< video videos/presion_multitud_reel.mp4 >}}
+{{< Mi-blog/posts/mecanica/monumento_indep/presion_multitud_reel.mp4 >}}
 
 El segundo video muestra la misma simulación pero renderizando el campo continuo de presión de multitud $P_c = \rho\,\mathrm{Var}(\vec v)$, con el campo de velocidades medias superpuesto y un contorno marcando el umbral crítico. El resultado cuantitativo central de este trabajo:
 El anillo de la glorieta —el lugar **más denso** de todo el dominio, con $\rho \approx 6.5$ p/m²— registra $P_c \approx 0.24$ s⁻². Los segmentos de Reforma inmediatamente al norte y al sur de la glorieta, y el brazo de Florencia, con **la mitad** de esa densidad ($\rho \approx 3$–$4$), alcanzan $P_c \approx 1.6$–$1.8$ s⁻²: un orden de magnitud más. La diferencia es la varianza: en el anillo todos están casi quietos o girando lentamente en el mismo sentido (densidad alta, movimiento coherente), mientras que en los tramos de choque el flujo entrante colisiona de frente con el saliente (densidad media, movimiento desordenado). Tal como predice la teoría de la sección 1.3, el peligro vive donde los flujos chocan.
