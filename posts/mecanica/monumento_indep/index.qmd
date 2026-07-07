@@ -1,109 +1,139 @@
 ---
-title: "Aproximación de la multitud como fluido"
-description: "Simulación del comportamiento de la multitud en el monumento a la independecia de la CDMX el día del partido de México vs Ecuador del mundial 2026."
-author: "Diego"
-date: "XX-07-2026"
-categories: [simulaciones, mecánica, fluidos]
-image: pendulo_doble.gif
+title: "La multitud como fluido: la física de los festejos en el Ángel"
+description: "Qué le pasa a 820 mil personas en una glorieta: del movimiento browniano a la turbulencia de multitudes, con simulaciones del 30 de junio de 2026."
+author: "Diego I. Inocente Gamboa"
+date: 2026-07-06
+lang: es
+categories: [física estadística, fluidos, simulación, CDMX]
+format:
+  html:
+    toc: true
+    number-sections: true
 ---
 
-## La idea
+La noche del 30 de junio de 2026, tras el triunfo de México sobre Ecuador, alrededor de 1.4 millones de personas salieron a festejar en la Ciudad de México; unas 820 mil se concentraron en el corredor Paseo de la Reforma–Monumento a la Revolución–Avenida Juárez, con el Ángel de la Independencia como epicentro. Cuatro personas murieron por asfixia en las calles de Lancaster y Berna, a pasos de Reforma. Yo estuve ahí, y este texto nace de una observación de campo: mi espacio personal esa noche no era una constante, sino un **campo** que variaba con la posición. Lejos de la glorieta podía caminar casi libre; acercándome, avanzaba a empujones; en las bocacalles del monumento, mi espacio personal se reducía a los límites de mi propio cuerpo y a veces ya no caminaba en la dirección que yo quería, sino en la que la masa me movía.
 
-Un péndulo simple es aburrido: oscila igual una y otra vez. Pero si le
-cuelgas **otro péndulo del extremo**, pasa algo extraño. El sistema sigue
-reglas perfectamente deterministas —pura mecánica newtoniana— y aun así su
-movimiento se vuelve **imposible de predecir** a largo plazo. Cambias el
-ángulo inicial una milésima y, unos segundos después, el movimiento es
-completamente distinto. Eso es **caos**.
+Esa última frase es la clave física de todo el artículo: si un sistema de "partículas" deja de moverse por decisión individual y pasa a moverse por las fuerzas que ejercen sus vecinas, dejó de ser un gas de individuos y se volvió un **medio continuo**. Este artículo desarrolla la teoría mínima para entenderlo, describe una simulación de esa noche, y discute dónde —y por qué— una multitud se vuelve mortal. Adelanto la conclusión, porque es contraintuitiva: *el peligro no está donde la multitud es más densa, sino donde es más desordenada.*
 
-## Las ecuaciones
+# Introducción: la física de una multitud
 
-Llamemos $\theta_1$ y $\theta_2$ a los ángulos de cada varilla. Aplicando
-las ecuaciones de Lagrange se obtiene un sistema acoplado para las
-aceleraciones angulares. Por ejemplo, para la primera masa:
+## Tres regímenes, un solo parámetro
+
+Una multitud cambia de comportamiento cualitativo según su densidad $\rho$ (personas/m²), de forma análoga a los estados de la materia:
+
+**Régimen diluido (gas), $\rho \lesssim 2$ p/m².** Cada persona camina a su velocidad preferida, esquiva a las demás con maniobras pequeñas y su trayectoria es la de una deriva más fluctuaciones aleatorias. Este es el régimen que sí se describe bien con un **movimiento browniano con deriva**, formalizado por la ecuación de Langevin:
 
 $$
-\ddot{\theta}_1 = \frac{m_2 L_1 \dot{\theta}_1^2 \sin\Delta\cos\Delta
-+ m_2 g \sin\theta_2 \cos\Delta + m_2 L_2 \dot{\theta}_2^2 \sin\Delta
-- (m_1+m_2) g \sin\theta_1}{(m_1+m_2)L_1 - m_2 L_1 \cos^2\Delta}
+\frac{d\vec v}{dt} = \frac{\vec v_0 - \vec v}{\tau} + \vec\xi(t),
 $$
 
-donde $\Delta = \theta_2 - \theta_1$. No hay solución analítica: hay que
-integrar numéricamente. Usamos **Runge-Kutta de 4to orden**.
+donde $\vec v_0$ es la velocidad deseada (magnitud típica $v_0 \approx 1.3$ m/s), $\tau \sim 1$ s es un tiempo de relajación (qué tan rápido corriges tu marcha) y $\vec\xi$ es un ruido estocástico de media cero que modela los pequeños desvíos impredecibles. Fue mi zona **verde**: gente cerca, pero caminas sin problema.
 
-## El código
+**Régimen denso (líquido), $\rho \sim 3\text{–}5$ p/m².** Los contactos son frecuentes, la velocidad de marcha cae y aparecen fenómenos colectivos: carriles espontáneos en flujos opuestos, ondas de "arranca-frena". La velocidad ya no la eliges tú: la impone la densidad local, a través del llamado **diagrama fundamental** del flujo peatonal, que empíricamente se aproxima como
 
-```{python}
-#| label: simulacion
-#| fig-cap: "Péndulo doble integrado con RK4. La estela roja marca el extremo."
+$$
+v(\rho) \approx v_0\left(1 - \frac{\rho}{\rho_{\text{jam}}}\right),
+$$
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, PillowWriter
+con $\rho_{\text{jam}} \approx 8\text{–}10$ p/m² la densidad de atasco total. Fue mi zona **amarilla**: caminar era lento y con empujones, pero posible.
 
-g = 9.81
-L1, L2 = 1.0, 1.0
-m1, m2 = 1.0, 1.0
+**Régimen de contacto (granular/compresible), $\rho \gtrsim 6$ p/m².** Los cuerpos están en contacto permanente y las fuerzas se transmiten de persona a persona como en un medio elástico: un empujón en un extremo se propaga como onda de presión decenas de metros. El individuo pierde el control de su movimiento. Helbing y colaboradores bautizaron este régimen como **turbulencia de multitudes** al analizar los desastres del Hajj y de la Love Parade de 2010 [3]. Fue mi zona **roja**: el espacio personal coincide con los límites del cuerpo.
 
-def derivadas(s):
-    th1, w1, th2, w2 = s
-    d = th2 - th1
-    den = (m1 + m2)*L1 - m2*L1*np.cos(d)**2
-    dw1 = (m2*L1*w1**2*np.sin(d)*np.cos(d) + m2*g*np.sin(th2)*np.cos(d)
-           + m2*L2*w2**2*np.sin(d) - (m1+m2)*g*np.sin(th1)) / den
-    den2 = (L2/L1)*den
-    dw2 = (-m2*L2*w2**2*np.sin(d)*np.cos(d) + (m1+m2)*g*np.sin(th1)*np.cos(d)
-           - (m1+m2)*L1*w1**2*np.sin(d) - (m1+m2)*g*np.sin(th2)) / den2
-    return np.array([w1, dw1, w2, dw2])
+La lección del primer régimen es importante para no sobreextenderla: el movimiento browniano es el *límite diluido* de la dinámica de multitudes. Describir la zona roja como browniana sería como describir un sólido con la teoría cinética de los gases ideales.
 
-def rk4(s, dt):
-    k1 = derivadas(s)
-    k2 = derivadas(s + dt/2*k1)
-    k3 = derivadas(s + dt/2*k2)
-    k4 = derivadas(s + dt*k3)
-    return s + dt/6*(k1 + 2*k2 + 2*k3 + k4)
+## El modelo de fuerza social
 
-dt, pasos = 0.02, 500
-s = np.array([np.pi/2, 0.0, np.pi/2 + 0.01, 0.0])
-tray = np.empty((pasos, 4))
-for i in range(pasos):
-    tray[i] = s
-    s = rk4(s, dt)
+El modelo estándar que interpola entre los tres regímenes es el de **fuerza social** de Helbing y Molnár [1]. Trata a cada peatón como una partícula newtoniana sujeta a tres términos:
 
-th1, th2 = tray[:, 0], tray[:, 2]
-x1, y1 = L1*np.sin(th1), -L1*np.cos(th1)
-x2, y2 = x1 + L2*np.sin(th2), y1 - L2*np.cos(th2)
+$$
+\frac{d\vec v_i}{dt} = \underbrace{\frac{v_0\,\hat e_i - \vec v_i}{\tau}}_{\text{voluntad}} \;-\; \underbrace{\frac{\nabla P}{\rho}}_{\text{presión de la masa}} \;+\; \underbrace{\vec\xi_i(t)}_{\text{ruido}}.
+$$
 
-fig, ax = plt.subplots(figsize=(5, 5))
-ax.set_xlim(-2.2, 2.2); ax.set_ylim(-2.2, 2.2)
-ax.set_aspect('equal'); ax.axis('off')
-fig.patch.set_facecolor('#0d1117'); ax.set_facecolor('#0d1117')
-linea, = ax.plot([], [], 'o-', lw=2, color='#58a6ff', markersize=8)
-estela, = ax.plot([], [], '-', lw=1, color='#ff7b72', alpha=0.6)
-xs, ys = [], []
+El primer término es la intención: $\hat e_i$ es la dirección hacia donde la persona *quiere* ir (en nuestro caso, hacia el monumento o hacia la salida). El tercero es el ruido browniano del régimen diluido. El segundo es el que convierte a la multitud en fluido: cuando la densidad local excede un umbral $\rho_c$, los cuerpos comprimidos ejercen una presión efectiva que aquí modelamos como
 
-def animar(i):
-    linea.set_data([0, x1[i], x2[i]], [0, y1[i], y2[i]])
-    xs.append(x2[i]); ys.append(y2[i])
-    estela.set_data(xs[-80:], ys[-80:])
-    return linea, estela
+$$
+P(\rho) \sim (\rho - \rho_c)^2 \quad \text{para } \rho > \rho_c,
+$$
 
-anim = FuncAnimation(fig, animar, frames=pasos, interval=20, blit=True)
-anim.save('pendulo_doble.gif', writer=PillowWriter(fps=30), dpi=80)
-plt.close()
-```
+de modo que la fuerza $-\nabla P/\rho$ empuja a la gente desde las zonas más comprimidas hacia las menos comprimidas — les guste o no. Nótese la estructura: es formalmente la ecuación de Euler de un fluido compresible con un término de forzamiento (la voluntad) y uno estocástico. La multitud *es* un fluido en el sentido matemático preciso de que obedece ecuaciones de la misma familia.
 
-![](pendulo_doble.gif)
+## ¿Dónde es peligrosa una multitud? La presión de multitud
 
-## Para llevar a Instagram
+Aquí viene el resultado central de la literatura, extraído del análisis empírico de videos de desastres reales [3]. Uno esperaría que el peligro fuera máximo donde $\rho$ es máxima. No es así. Una multitud muy densa pero **coherente** —todos quietos o moviéndose en la misma dirección— es incómoda pero relativamente estable. El desastre ocurre donde la densidad alta se combina con movimientos **desordenados**: gente empujada en direcciones opuestas, ondas de presión que se cruzan. La cantidad que captura esto es la **presión de multitud**:
 
-El archivo `pendulo_doble.gif` que se generó es exactamente lo que subes a
-Instagram (o conviértelo a `.mp4` para mejor calidad). Cambia `dpi=80` por
-`dpi=150` para más resolución, o ajusta el ángulo inicial en `s = np.array([...])`
-para obtener un movimiento totalmente distinto. Esa es la gracia del caos.
+$$
+P_c(\vec r, t) = \rho \,\cdot\, \mathrm{Var}(\vec v),
+$$
 
-## Para experimentar
+la densidad local multiplicada por la varianza local de las velocidades. Tiene unidades de $1/\text{s}^2$ y funciona como un índice de peligro: en la Love Parade de 2010, los "terremotos de multitud" —desplazamientos involuntarios violentos en los que la gente cae y ya no puede levantarse— coincidieron con los máximos espaciotemporales de $P_c$, no con los de $\rho$ [3]. La intuición física: $\mathrm{Var}(\vec v)$ mide cuán desincronizado está el movimiento; el producto $\rho\,\mathrm{Var}(\vec v)$ mide cuánta "energía de agitación" hay confinada en poco espacio. Es, salvando distancias, el análogo de una temperatura granular multiplicada por la densidad — una presión cinética.
 
-- ¿Qué pasa si haces `m2` mucho más pesada que `m1`?
-- Lanza **dos** péndulos con ángulos casi idénticos y compáralos: verás cómo
-  se separan. Esa es la "sensibilidad a las condiciones iniciales".
+La predicción es concreta y verificable: el peligro máximo debe aparecer donde **el flujo que entra choca con el que sale**, porque el contraflujo es la forma más eficiente de generar varianza de velocidades a densidad alta.
+
+# Metodología
+
+## Geometría
+
+Construí un mapa estilizado de la zona: un dominio de $180 \times 320$ m con Paseo de la Reforma como avenida principal, la glorieta del Ángel (radio 30 m, monumento de radio 9.5 m como obstáculo) en el cruce con el eje Florencia–Río Tíber, y una retícula de calles angostas (7 m de ancho) paralelas y perpendiculares, como la traza real de las colonias Juárez y Cuauhtémoc. El ancho de calle importa: en una avenida ancha el fluido humano puede descomprimirse lateralmente; en una calle de 7 m, no. La malla de cómputo tiene resolución de 0.5 m para la geometría y celdas de 2 m para los campos de densidad.
+
+## Ruteo
+
+Cada agente necesita saber hacia dónde caminar. Calculé el campo de **distancia geodésica** $d(\vec r)$ al monumento —la distancia caminando por calles, no en línea recta— mediante una búsqueda en anchura sobre la malla transitable. La dirección deseada de quien entra es $\hat e = -\nabla d / |\nabla d|$ (bajar el gradiente lleva al Ángel); la de quien sale es la opuesta. Una fracción creciente de agentes cercanos al monumento decide salir conforme avanza la noche, y el 60 % de quienes salen prefiere rutas laterales (hacia el Metro y la Zona Rosa), lo que genera el contraflujo en calles angostas.
+
+## Dinámica y parámetros
+
+Cada agente obedece la ecuación de fuerza social de la introducción, integrada con paso $\Delta t = 0.4$ s. La densidad $\rho(\vec r,t)$ se estima por conteo en celdas de 2 m suavizado con un filtro gaussiano, y de ella se derivan el factor de frenado $v(\rho)$, la fuerza de presión y, a posteriori, la presión de multitud $P_c = \rho\,\mathrm{Var}(\vec v)$ con la varianza de velocidades calculada por celda.
+
+| Parámetro | Valor | Significado |
+|---|---|---|
+| $v_0$ | 1.3 m/s | velocidad deseada de marcha |
+| $\tau$ | 0.9 s | tiempo de relajación |
+| $\rho_{\text{jam}}$ | 9 p/m² | densidad de atasco |
+| $\rho_c$ | 2.5 p/m² | umbral de la presión de contacto |
+| $N$ | $\sim 56\,000$ | agentes simultáneos (muestra) |
+| Dominio | $180\times320$ m | zona Reforma–Ángel |
+| $\Delta t$ | 0.4 s | paso de integración |
+
+Los agentes son una **muestra representativa**, no las 820 mil personas reales: las densidades están calibradas para reproducir los tres regímenes observados en campo, y la escala de color compensa que el suavizado gaussiano subestima los picos puntuales de densidad. La inyección de agentes ocurre por las bocas de calle del perímetro —con Reforma como fuente principal, en ambos sentidos, tal como ocurrió esa noche— y crece durante la primera mitad de la simulación.
+
+# Resultados y discusión
+
+## El semáforo emerge solo
+
+{{< video videos/multitud_angel_reel_v2.mp4 >}}
+
+El primer video muestra a los agentes coloreados por su densidad local con el semáforo que marqué en campo: verde ($\rho < 2$), amarillo ($3$–$5$), rojo ($\rho > 6$ p/m²). El punto metodológico importante es que **el semáforo no está pintado a mano**: es un resultado. Las únicas entradas del modelo son la geometría, las fuentes de gente y la ecuación de movimiento; la distribución espacial de colores emerge de la dinámica. Y emerge donde debe: rojo en el anillo del monumento y en las bocacalles cercanas a la glorieta, amarillo en la periferia de ésta, verde en los tramos lejanos de Reforma — el mapa que cualquiera que estuvo ahí reconoce.
+
+Vale la pena notar el papel de la geometría: en versiones preliminares con calles anchas, el rojo casi no aparecía fuera del anillo del monumento, porque la presión se disipaba lateralmente. Al usar los anchos realistas de la retícula, las bocacalles se encienden. La compresión letal es tanto un fenómeno de flujo como un fenómeno de **geometría urbana**.
+
+## La densidad no es el peligro
+
+{{< video videos/presion_multitud_reel.mp4 >}}
+
+El segundo video muestra la misma simulación pero renderizando el campo continuo de presión de multitud $P_c = \rho\,\mathrm{Var}(\vec v)$, con el campo de velocidades medias superpuesto y un contorno marcando el umbral crítico. El resultado cuantitativo central de este trabajo:
+El anillo de la glorieta —el lugar **más denso** de todo el dominio, con $\rho \approx 6.5$ p/m²— registra $P_c \approx 0.24$ s⁻². Los segmentos de Reforma inmediatamente al norte y al sur de la glorieta, y el brazo de Florencia, con **la mitad** de esa densidad ($\rho \approx 3$–$4$), alcanzan $P_c \approx 1.6$–$1.8$ s⁻²: un orden de magnitud más. La diferencia es la varianza: en el anillo todos están casi quietos o girando lentamente en el mismo sentido (densidad alta, movimiento coherente), mientras que en los tramos de choque el flujo entrante colisiona de frente con el saliente (densidad media, movimiento desordenado). Tal como predice la teoría de la sección 1.3, el peligro vive donde los flujos chocan.
+
+## Modelo contra realidad: una discrepancia honesta
+
+Las muertes reales ocurrieron en Lancaster y Berna: calles laterales angostas, no sobre Reforma. Mi simulación pone los máximos de $P_c$ sobre Reforma y Florencia. ¿Falla el modelo? La discrepancia tiene una causa identificable: mi condición de salida es casi isótropa (la gente sale, en buena parte, por donde vino), mientras que esa noche la salida real se canalizó desproporcionadamente hacia las calles angostas del sur —rumbo al Metro Insurgentes y la Zona Rosa— por decisiones individuales y por los cierres y cordones del operativo. Cuando en el modelo aumento la preferencia de salida lateral, la $P_c$ de las calles laterales sube hasta emparejar la de Reforma; con datos reales de rutas de salida, los máximos migrarían a donde ocurrieron las muertes.
+
+Preferí no ajustar parámetros hasta forzar esa coincidencia, porque un modelo que se tuerce hasta "predecir" lo que ya sabemos no predice nada. La lectura correcta de la discrepancia es una lección de gestión de multitudes: **el contraflujo es transportable**. Si la geometría o el operativo lo expulsan de una avenida de 50 m y lo canalizan a una calle de 7 m, el máximo de presión de multitud se muda ahí, amplificado por el confinamiento. La avenida ancha no elimina el peligro: lo exporta.
+
+## Limitaciones
+
+El modelo es bidimensional y no incluye la dinámica de personas caídas (que en los desastres reales convierte un máximo de $P_c$ en una pila humana), ni las decisiones de ruta informadas por conocimiento local, ni el operativo policial. La escala absoluta de $P_c$ depende de la calibración del ruido y de la muestra de agentes, por lo que los valores deben leerse comparativamente (dónde es mayor y cuántas veces), no como umbrales absolutos trasladables a otros eventos.
+
+# Conclusiones
+
+Primera: el movimiento browniano describe correctamente una multitud solo en su régimen diluido; a densidades altas la multitud es un medio compresible cuya física dominante es el gradiente de presión, no la difusión. Segunda: el indicador de peligro no es la densidad sino la presión de multitud $P_c = \rho\,\mathrm{Var}(\vec v)$; en nuestra simulación el punto más denso resultó diez veces menos "presionado" que los puntos de colisión de flujos. Tercera: la geometría manda: las calles angostas con flujo bidireccional son los puntos estructuralmente peligrosos de cualquier festejo masivo, y las medidas que desplazan el contraflujo hacia ellas —en lugar de separar espacialmente entrada y salida— trasladan el riesgo en vez de reducirlo. Esa noche en el Ángel, la física estaba a la vista de cualquiera que no pudiera elegir hacia dónde caminar.
+
+# Bibliografía
+
+1. D. Helbing y P. Molnár, *Social force model for pedestrian dynamics*, Phys. Rev. E **51**, 4282 (1995). Gratis en arXiv: [cond-mat/9805244](https://arxiv.org/abs/cond-mat/9805244).
+2. D. Helbing, I. Farkas y T. Vicsek, *Simulating dynamical features of escape panic*, Nature **407**, 487 (2000). Gratis en arXiv: [cond-mat/0009448](https://arxiv.org/abs/cond-mat/0009448).
+3. D. Helbing, A. Johansson y H. Z. Al-Abideen, *Dynamics of crowd disasters: An empirical study*, Phys. Rev. E **75**, 046109 (2007). Gratis en arXiv: [physics/0701203](https://arxiv.org/abs/physics/0701203).
+4. H. Sayama, *Introduction to the Modeling and Analysis of Complex Systems*, Open SUNY Textbooks (2015). Libro completo gratuito: [milneopentextbooks.org](https://milneopentextbooks.org/introduction-to-the-modeling-and-analysis-of-complex-systems/). Capítulos de modelos basados en agentes.
+5. R. Feynman, R. Leighton y M. Sands, *The Feynman Lectures on Physics*, Vol. I, cap. 41 (movimiento browniano). Gratis en línea: [feynmanlectures.caltech.edu](https://www.feynmanlectures.caltech.edu/I_41.html).
+
+---
+
+*Los datos del evento (asistencia, ubicación de los decesos) provienen de los reportes del Gobierno de la Ciudad de México y de la prensa del 1 de julio de 2026. Las simulaciones y videos son propios; el código está disponible a quien lo solicite.*
