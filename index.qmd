@@ -15,13 +15,13 @@ Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato d
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.sim-card}
-### El péndulo doble
+### Comportamiento de una multitud
 
-[Mecánica]{.tag} [Caos]{.tag}
+[Mecánica]{.tag} [Fluidos]{.tag}
 
-Un sistema completamente determinista que resulta imposible de predecir. Lo integramos con Runge-Kutta de 4to orden y lo animamos desde cero.
+¿Como se puede estudiar el comportamiento de una gran multitud?
 
-[Ver simulación →](posts/mecanica/pendulo-doble/index.qmd){.btn-ver}
+[Ver simulación →](posts/mecanica/monumento_indep/index.qmd){.btn-ver}
 :::
 :::
 
