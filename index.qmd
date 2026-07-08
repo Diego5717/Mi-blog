@@ -17,11 +17,11 @@ Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato d
 ::: {.sim-card}
 ### Comportamiento de una multitud
 
-[Mecánica]{.tag} [Fluidos]{.tag}
+[Física Estadística]{.tag} [Fluidos]{.tag}
 
 ¿Como se puede estudiar el comportamiento de una gran multitud?
 
-[Ver simulación →](posts/mecanica/monumento_indep/index.qmd){.btn-ver}
+[Ver simulación →](posts/estadistica/monumento_indep/index.qmd){.btn-ver}
 :::
 :::
 
