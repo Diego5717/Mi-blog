@@ -99,6 +99,15 @@ Los agentes son una **muestra representativa**, no las 820 mil personas reales: 
 
 ## El semáforo emerge solo
 
+<div style="display:flex; justify-content:center;">
+<iframe width="360" height="640"
+  src="https://www.youtube.com/embed/TVne4v_PsvE"
+  title="La multitud como fluido"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen></iframe>
+</div>
+
 {{< video https://youtube.com/embed/TVne4v_PsvE width="360" height="640" >}}
 
 El primer video muestra a los agentes coloreados por su densidad local con el semáforo que marqué en campo: verde ($\rho < 2$), amarillo ($3$–$5$), rojo ($\rho > 6$ p/m²). El punto metodológico importante es que **el semáforo no está pintado a mano**: es un resultado. Las únicas entradas del modelo son la geometría, las fuentes de gente y la ecuación de movimiento; la distribución espacial de colores emerge de la dinámica. Y emerge donde debe: rojo en el anillo del monumento y en las bocacalles cercanas a la glorieta, amarillo en la periferia de ésta, verde en los tramos lejanos de Reforma — el mapa que cualquiera que estuvo ahí reconoce.
