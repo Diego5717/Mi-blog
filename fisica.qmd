@@ -7,20 +7,8 @@ Dividido por las áreas de la física, aqui se pueden ver los pequeños estudios
 
 ## Mecánica {#mecanica}
 
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-6}
-::: {.sim-card}
-### Estudio de una multitud por medio de una aproximación de fluidos.
-
-[Mecánica]{.tag} [Fluidos]{.tag}
-
-El estudio del comportamiento de las casi 900 mil personas que asistieron a la vez al monumento de la independencia para celebrar la victoria de México sobre ecuador en el mundial del 2026.
-
-[Ver →](posts/mecanica/monumento_indep/index.qmd){.btn-ver}
-:::
-:::
-
+::: {.pronto}
+Próximamente.
 :::
 
 ## Electromagnetismo {#electromagnetismo}
@@ -31,8 +19,20 @@ Próximamente.
 
 ## Física estadística {#estadistica}
 
-::: {.pronto}
-Próximamente.
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
+### Estudio de una multitud por medio de una aproximación de fluidos.
+
+[Física Estadística]{.tag} [Fluidos]{.tag}
+
+El estudio del comportamiento de las casi 900 mil personas que asistieron a la vez al monumento de la independencia para celebrar la victoria de México sobre ecuador en el mundial del 2026.
+
+[Ver →](posts/estadistica/monumento_indep/index.qmd){.btn-ver}
+:::
+:::
+
 :::
 
 ## Cuántica {#cuantica}
