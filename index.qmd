@@ -27,6 +27,23 @@ Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato d
 
 :::
 
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
+### Conveccion
+
+[Física Estadística]{.tag} [Fluidos]{.tag}
+
+¿Como se puede estudiar el comportamiento de una gran multitud?
+
+[Ver simulación →](posts/mecanica/conveccion_frio_calor/index.qmd){.btn-ver}
+:::
+:::
+
+:::
+
 ## Ensayos
 
 ::: {.grid}
