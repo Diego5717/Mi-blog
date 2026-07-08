@@ -1,0 +1,122 @@
+---
+title: "Convección natural: cómo el calor pone a girar un fluido"
+description: "Simulación de una cavidad calentada lateralmente con el método de proyección. Del reposo al estado estacionario: por qué el transiente inicial parece caótico (y por qué no lo es)."
+author: "Diego"
+date: 2026-07-08
+categories: [mecánica de fluidos, simulación]
+format:
+  html:
+    toc: true
+    code-fold: true
+---
+
+<!-- VIDEO: sustituye VIDEO_ID por el ID de YouTube del Reel -->
+<div style="display:flex; justify-content:center;">
+<iframe width="315" height="560"
+  src="https://www.youtube.com/embed/5FAD5-CVN2w"
+  title="Convección natural en una cavidad"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen>
+</iframe>
+</div>
+
+## Introducción
+
+Pon una olla con agua fría junto a una ventana soleada y toca sus dos costados: uno estará tibio y el otro no. Ese desequilibrio no se queda quieto. El fluido junto a la pared caliente se expande, se vuelve menos denso y **flota**; el fluido junto a la pared fría se contrae y **se hunde**. Sin ningún ventilador ni bomba, el fluido empieza a girar por sí solo. A eso se le llama **convección natural**, y es el mecanismo detrás de las brisas marinas, la circulación del manto terrestre y hasta del patrón de las manchas solares.
+
+En esta entrada simulo el caso clásico de laboratorio: una **cavidad cuadrada** cuya pared izquierda se mantiene caliente ($T_H = 1$), la derecha fría ($T_C = 0$), y las paredes horizontales son adiabáticas (no dejan pasar calor). El fluido parte del reposo absoluto. La pregunta que guía todo: **¿cómo nace la circulación y cómo se ve el estado final?**
+
+### Las ecuaciones
+
+El problema está gobernado por tres leyes de conservación acopladas, escritas aquí en forma adimensional bajo la aproximación de **Boussinesq** (la densidad solo varía con la temperatura, y esa variación solo importa en el término de flotabilidad):
+
+**Conservación de masa (continuidad):**
+$$
+\nabla \cdot \vec{u} = 0
+$$
+El fluido es incompresible: lo que entra a cualquier volumen, sale.
+
+**Conservación de momento (Navier–Stokes + Boussinesq):**
+$$
+\underbrace{\frac{\partial \vec{u}}{\partial t}}_{\text{aceleración local}}
++ \underbrace{(\vec{u}\cdot\nabla)\vec{u}}_{\text{advección}}
+= \underbrace{-\nabla p}_{\text{presión}}
++ \underbrace{\frac{1}{Re}\nabla^2\vec{u}}_{\text{difusión viscosa}}
++ \underbrace{Pr\, T\, \hat{\jmath}}_{\text{flotabilidad}}
+$$
+
+**Conservación de energía:**
+$$
+\frac{\partial T}{\partial t} + \vec{u}\cdot\nabla T = \frac{1}{Re\,Pr}\nabla^2 T
+$$
+
+El acoplamiento es el corazón del problema: la temperatura genera movimiento a través de la flotabilidad (segunda ecuación), y el movimiento redistribuye la temperatura a través de la advección (tercera ecuación). No se puede resolver una sin la otra.
+
+### Los números que mandan
+
+Dos parámetros adimensionales controlan todo el comportamiento:
+
+- **Número de Prandtl**, $Pr = \nu/\alpha = 7$: compara qué tan rápido difunde el momento frente al calor. $Pr = 7$ corresponde al agua.
+- **Número de Rayleigh**, $Ra = \dfrac{g\beta \Delta T L^3}{\nu\alpha} = 2\times10^5$: mide qué tan fuerte es el empuje de flotabilidad frente a los frenos difusivos. A $Ra$ bajo el calor se transporta por pura conducción; a $Ra$ alto, la convección domina.
+
+De ellos se deriva el número de Reynolds efectivo de la formulación, $Re = \sqrt{Ra/Pr} \approx 169$.
+
+## Metodología
+
+Resolví las ecuaciones en **Fortran** con el **método de proyección de Chorin** sobre una **malla escalonada de $50\times50$** volúmenes finitos:
+
+1. **Predicción:** se avanzan las velocidades con advección, difusión y flotabilidad, ignorando la presión.
+2. **Proyección:** se resuelve una ecuación de Poisson para la presión (solver iterativo línea por línea con TDMA) que fuerza $\nabla\cdot\vec{u}=0$.
+3. **Corrección:** se corrigen las velocidades con el gradiente de presión.
+4. Se transporta la temperatura con el campo de velocidad ya corregido.
+
+El paso de tiempo es $\Delta t^* = 5\times10^{-5}$, muy por debajo del límite CFL ($\approx 0.02$), y la simulación corre desde el reposo hasta $t^* = 60$, guardando un cuadro cada $\Delta t^* = 0.25$ para la animación.
+
+Además de temperatura, velocidad y **líneas de corriente** ($\psi$, que dibujan por dónde circula la masa), calculé las **heatlines** o líneas de calor: la función de calor
+$$
+H(x,y) = \int_0^y \left( uT - \frac{1}{Re\,Pr}\frac{\partial T}{\partial x} \right) dy'
+$$
+cuyos contornos dibujan por dónde viaja la **energía** — el análogo térmico exacto de las líneas de corriente (Kimura & Bejan, 1983). Donde el fluido está quieto, las heatlines son perpendiculares a las isotermas (pura conducción); donde hay flujo, se doblan y siguen al fluido.
+
+## Resultados y discusión
+
+### El transiente: ¿por qué al principio se ve "caótico"?
+
+Si ves la animación, los primeros segundos ($t^* \lesssim 10$) parecen desordenados: las cuatro gráficas se retuercen, aparecen estructuras que se deshacen, nada parece estable. Es tentador llamarle "caos", pero **no lo es**, y la distinción importa.
+
+Caos determinista significa sensibilidad exponencial a las condiciones iniciales: dos estados casi idénticos que divergen sin remedio. Aquí no ocurre nada de eso. Lo que se ve es un **transiente**: el sistema parte de una condición inicial artificial (fluido en reposo con un perfil lineal de temperatura) que **no es solución de las ecuaciones**, y tiene que reorganizarse hasta encontrar el estado que sí lo es. En el camino compiten tres relojes distintos:
+
+1. **La flotabilidad** actúa de inmediato: el fluido pegado a la pared caliente recibe empuje y arranca chorros verticales delgados.
+2. **La advección** transporta esas estructuras por la cavidad más rápido de lo que
+3. **la difusión** (viscosa y térmica) alcanza a suavizarlas.
+
+Mientras estas escalas de tiempo no se equilibran, el flujo exhibe **oscilaciones amortiguadas**: el chorro caliente sube, choca con el techo, rebasa su posición de equilibrio, regresa. Cada oscilación es más débil que la anterior — exactamente lo contrario del caos, donde las perturbaciones crecen.
+
+Hay además un motivo **puramente visual** que hay que confesar: en la animación, los contornos de $\psi$ y $H$ se normalizan cuadro a cuadro para que siempre se vea la *forma* del flujo. Al inicio, cuando las magnitudes son diminutas ($|\psi| \sim 10^{-4}$ contra $\sim 10^{-2}$ al final), esa normalización amplifica fluctuaciones minúsculas hasta llenar toda la escala de color. El panel de velocidad, que sí usa escala fija, cuenta la historia honesta: al principio casi no hay movimiento. Moraleja de visualización científica: **la escala de colores es parte del resultado**.
+
+### El estado estacionario
+
+Hacia $t^* \approx 30$ el sistema encuentra su equilibrio dinámico y ya no cambia visiblemente:
+
+- **Temperatura:** el interior se estratifica (capas horizontales, caliente arriba) y los gradientes se concentran en **capas límite delgadas** pegadas a las paredes activas. La conducción pura daría isotermas verticales; la convección las acuesta.
+- **Líneas de corriente:** una gran celda que gira en sentido horario, con **dos vórtices internos** — la firma característica de $Ra$ alto, tal como reporta la literatura (Griebel *et al.*, Fig. 9.5).
+- **Heatlines:** el calor ya no cruza la cavidad en línea recta; entra por la pared caliente, es capturado por la circulación y viaja en espiral hasta la pared fría. La mayor parte de la energía viaja por el perímetro, montada en el fluido.
+- **Velocidad:** los máximos ($|\vec{u}| \approx 0.24$) viven en las capas límite verticales; el centro de la cavidad está casi quieto.
+
+El transporte de calor global se cuantifica con el **número de Nusselt**, $Nu \approx 5.4$: la convección mueve unas cinco veces más calor del que movería la conducción sola.
+
+## Conclusiones
+
+1. La convección natural nace de un acoplamiento de ida y vuelta: la temperatura empuja al fluido y el fluido arrastra a la temperatura.
+2. El "desorden" inicial de la simulación no es caos sino un **transiente con oscilaciones amortiguadas**, producto de partir de una condición inicial que no es solución de las ecuaciones y de la competencia entre advección, flotabilidad y difusión.
+3. Parte de ese desorden aparente es un artefacto de visualización: normalizar contornos cuadro a cuadro amplifica campos casi nulos. Vale la pena decirlo en voz alta, porque es una lección general sobre cómo leer animaciones científicas.
+4. El estado estacionario a $Ra = 2\times10^5$ muestra estratificación térmica, capas límite delgadas, una celda con dos vórtices internos y $Nu \approx 5.4$, en acuerdo con los resultados de referencia.
+
+## Bibliografía
+
+- Griebel, M., Dornseifer, T. & Neunhoeffer, T. (1998). *Numerical Simulation in Fluid Dynamics: A Practical Introduction*. SIAM.
+- Chorin, A. J. (1968). Numerical solution of the Navier–Stokes equations. *Mathematics of Computation*, 22, 745–762.
+- Kimura, S. & Bejan, A. (1983). The "heatline" visualization of convective heat transfer. *Journal of Heat Transfer*, 105(4), 916–919.
+- Patankar, S. V. (1980). *Numerical Heat Transfer and Fluid Flow*. Hemisphere.
+- de Vahl Davis, G. (1983). Natural convection of air in a square cavity: a bench mark numerical solution. *Int. J. Numer. Methods Fluids*, 3, 249–264.
