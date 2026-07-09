@@ -1,25 +1,27 @@
 ---
-title: "La multitud como fluido: la física de los festejos en el Ángel"
-description: "Qué le pasa a 820 mil personas en una glorieta: del movimiento browniano a la turbulencia de multitudes, con simulaciones del 30 de junio de 2026."
+title: "La multitud como fluido: la física de los festejos de México por el mundial de futbol 2026"
+description: "Qué le pasa a 820 mil personas en una glorieta, del movimiento browniano a la turbulencia de multitudes."
 author: "Diego I. Inocente Gamboa"
 date: 2026-07-06
 lang: es
-categories: [física estadística, fluidos, simulación, CDMX]
+categories: [física estadística, fluidos, simulación]
 format:
   html:
     toc: true
     number-sections: true
 ---
 
-La noche del 30 de junio de 2026, tras el triunfo de México sobre Ecuador, alrededor de 1.4 millones de personas salieron a festejar en la Ciudad de México; unas 820 mil se concentraron en el corredor Paseo de la Reforma–Monumento a la Revolución–Avenida Juárez, con el Ángel de la Independencia como epicentro. Cuatro personas murieron por asfixia en las calles de Lancaster y Berna, a pasos de Reforma. Yo estuve ahí, y este texto nace de una observación de campo: mi espacio personal esa noche no era una constante, sino un **campo** que variaba con la posición. Lejos de la glorieta podía caminar casi libre; acercándome, avanzaba a empujones; en las bocacalles del monumento, mi espacio personal se reducía a los límites de mi propio cuerpo y a veces ya no caminaba en la dirección que yo quería, sino en la que la masa me movía.
-
-Esa última frase es la clave física de todo el artículo: si un sistema de "partículas" deja de moverse por decisión individual y pasa a moverse por las fuerzas que ejercen sus vecinas, dejó de ser un gas de individuos y se volvió un **medio continuo**. Este artículo desarrolla la teoría mínima para entenderlo, describe una simulación de esa noche, y discute dónde —y por qué— una multitud se vuelve mortal. Adelanto la conclusión, porque es contraintuitiva: *el peligro no está donde la multitud es más densa, sino donde es más desordenada.*
+Conforme avanzaba el mundial y México seguía ganando, más personas se decidian reunir en la zona centro de la Cuidad de México, especificamente en el monumento a la independecia que se encuentra sobre la avenida Reforma. Fueron 4 victorias, por lo que fueron 4 festejos, yo asistí a 3 de ellos y al haber cada vez mas personas, seguía pensando en que la mejor manera de estudiar y modelar grandes concentraciones de gente es pensarlo como un fluido porque el desorden y los peligros eran evidentes. Por experiencia cuando se juntaban aproximadamente 8 personas por metro cuadrado dificilmente tenía el control sobre hacia donde quería ir, ya no actuaba como individuo, mi movmimiento estaba altamente influenciado por las personas pegadas a mi, y el movimiento de ellas por las de su alrededor y así, pareciendose a un fluido. El máximo de personas que asitieron se dio en el partido de México vs Ecuador, con reportes de 1.4 millones de personas en la zona centro, pero se estima que 820 mil personas corresponden a los alrededores del monumento a la independencia. Incluso se reportaron fallecidos en el lugar. Por lo que tuve la curiosidad de investigar y aprender sobre como se parece una multitud con el comportamiento de un fluido. 
 
 # Introducción: la física de una multitud
 
 ## Tres regímenes, un solo parámetro
 
-Una multitud cambia de comportamiento cualitativo según su densidad $\rho$ (personas/m²), de forma análoga a los estados de la materia:
+Para empezar a entenderlo, podemos pensar en como se relaciona la multitud con un fluido. Mi espacio personal era una variable, podemos hablar de densidad de personas por metro cuadrado, denotandolo por la letra griega $\rho$ (personas/m²), a veces la densidad era baja, 1 o 2 personas por metro cuadrado, pero a veces era sumamente alta, yo creo unos 8 o 9 personas por metro cuadrado. Aquí podemos pensar en una analogía con los estados de la materia, solido, liquido y gas. 
+
+
+
+de forma análoga a los estados de la materia:
 
 **Régimen diluido (gas), $\rho \lesssim 2$ p/m².** Cada persona camina a su velocidad preferida, esquiva a las demás con maniobras pequeñas y su trayectoria es la de una deriva más fluctuaciones aleatorias. Este es el régimen que sí se describe bien con un **movimiento browniano con deriva**, formalizado por la ecuación de Langevin:
 
