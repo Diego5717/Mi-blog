@@ -15,9 +15,9 @@ website:
         text: Sobre mí
     right:
       - icon: github
-        href: https://github.com/Diego5717/mi-blog
+        href: https://github.com/Diego5717/Mi-blog
       - icon: instagram
-        href: https://instagram.com/TU_USUARIO
+        href: https://instagram.com/diego_inocente23
 
 format:
   html:
