@@ -34,9 +34,9 @@ Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato d
 ::: {.sim-card}
 ### Conveccion
 
-[Física Estadística]{.tag} [Fluidos]{.tag}
+[Mecánica]{.tag} [Fluidos]{.tag}
 
-¿Como se puede estudiar el comportamiento de una gran multitud?
+¿Como se puede estudiar el comportamiento de un fluido con diferencia de temperatura?
 
 [Ver simulación →](posts/mecanica/conveccion_frio_calor/index.qmd){.btn-ver}
 :::
@@ -54,7 +54,7 @@ Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato d
 
 [Ensayos]{.tag}
 
-Sobre la diferencia entre saber algo y poder explicarlo, y por qué Feynman tenía razón.
+Razones, motivaciones y una idea sobre el por que de todo esto.
 
 [Leer →](posts/ensayos/bienvenida/index.qmd){.btn-ver}
 :::
