@@ -11,11 +11,11 @@ Dividido por las áreas de la física, aqui se pueden ver los pequeños estudios
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.sim-card}
-### Estudio de una multitud por medio de una aproximación de fluidos.
+### Dinámica de un fluido con diferencia de temperatura.
 
-[Física Estadística]{.tag} [Fluidos]{.tag}
+[Mecánica]{.tag} [Fluidos]{.tag} [Medios Deformables]{.tag}
 
-El estudio del comportamiento de las casi 900 mil personas que asistieron a la vez al monumento de la independencia para celebrar la victoria de México sobre ecuador en el mundial del 2026.
+Como es la dinámica de un fluido cuando se le tiene encerrado en una caja bidimensional con diferencia de temperatura en sus paredes lateriales y la tapa superior e inferior son paredes adiabaticas.
 
 [Ver →](posts/mecanica/conveccion_frio_calor/index.qmd){.btn-ver}
 :::
@@ -23,7 +23,7 @@ El estudio del comportamiento de las casi 900 mil personas que asistieron a la v
 
 :::
 
-## Electromagnetismo {#electromagnetismo}
+## Termodinámica {#termodinamica}
 
 ::: {.pronto}
 Próximamente.
