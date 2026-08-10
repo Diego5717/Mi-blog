@@ -1,7 +1,7 @@
 ---
-title: "Convección natural: cómo el calor pone a girar un fluido"
-description: "Simulación de una cavidad calentada lateralmente con el método de proyección. Del reposo al estado estacionario: por qué el transiente inicial parece caótico (y por qué no lo es)."
-author: "Diego"
+title: "Convección natural: cómo el calor se mueve en un fluido"
+description: "Simulación de una cavidad con diferencia de temperatura en sus paredes laterales con un fluido adentro."
+author: "Diego I. Inocente Gamboa"
 date: 2026-07-08
 categories: [mecánica de fluidos, simulación]
 format:
@@ -23,13 +23,13 @@ format:
 
 ## Introducción
 
-Pon una olla con agua fría junto a una ventana soleada y toca sus dos costados: uno estará tibio y el otro no. Ese desequilibrio no se queda quieto. El fluido junto a la pared caliente se expande, se vuelve menos denso y **flota**; el fluido junto a la pared fría se contrae y **se hunde**. Sin ningún ventilador ni bomba, el fluido empieza a girar por sí solo. A eso se le llama **convección natural**, y es el mecanismo detrás de las brisas marinas, la circulación del manto terrestre y hasta del patrón de las manchas solares.
+Todos de una u otra manera hemos experimentado este fenomeno, un ejemplo en el que podemos pensar es si ponemos una olla con agua fría junto a una ventana que pueda entrar el sol, después de un tiempo si tocamos sus dos costados: uno estará tibio y el otro no. Es como pueden pensar la simulación. Entonces físicamente lo que pasa es que el fluido junto a la pared caliente se expande, se vuelve menos denso y empieza a querer flotar; el fluido junto a la pared fría se contrae y se hunde. Esto provocará un movimiento en el fluido, ya que al alejarse de las paredes cambia su temperatura, pero ahora el fluido que esta en las paredes se quiere mover en la forma en la que ya dijimos, por lo que empieza un movimiento llamado **convección natural**, y es el mecanismo detrás de las brisas marinas, la circulación del manto terrestre y hasta del patrón de las manchas solares.
 
-En esta entrada simulo el caso clásico de laboratorio: una **cavidad cuadrada** cuya pared izquierda se mantiene caliente ($T_H = 1$), la derecha fría ($T_C = 0$), y las paredes horizontales son adiabáticas (no dejan pasar calor). El fluido parte del reposo absoluto. La pregunta que guía todo: **¿cómo nace la circulación y cómo se ve el estado final?**
+En mi simulación, es el caso clásico: una **cavidad cuadrada** cuya pared izquierda se mantiene caliente ($T_H = 1$), la derecha fría ($T_C = 0$), y las paredes horizontales son adiabáticas (no dejan pasar calor). El fluido parte del reposo absoluto, entonces **¿cómo nace la circulación y cómo se ve el estado final?**
 
 ### Las ecuaciones
 
-El problema está gobernado por tres leyes de conservación acopladas, escritas aquí en forma adimensional bajo la aproximación de **Boussinesq** (la densidad solo varía con la temperatura, y esa variación solo importa en el término de flotabilidad):
+El problema está gobernado por tres leyes de conservación acopladas, escritas aquí en forma adimensional bajo la aproximación de **Boussinesq**, esta aproximación nos dice que la densidad solo varía con la temperatura, y esa variación solo modificará el valor de la flotabilidad. 
 
 **Conservación de masa (continuidad):**
 $$
@@ -51,14 +51,14 @@ $$
 \frac{\partial T}{\partial t} + \vec{u}\cdot\nabla T = \frac{1}{Re\,Pr}\nabla^2 T
 $$
 
-El acoplamiento es el corazón del problema: la temperatura genera movimiento a través de la flotabilidad (segunda ecuación), y el movimiento redistribuye la temperatura a través de la advección (tercera ecuación). No se puede resolver una sin la otra.
+El acoplamiento es el corazón del problema, la temperatura genera movimiento a través de la flotabilidad (segunda ecuación), y el movimiento redistribuye la temperatura a través de la advección (tercera ecuación). Que sean ecuaciones acopladas significa que no se puede resolver una sin la otra, por lo que una solución análitica es practicamente imposible. Aunque por medio de aproximaciones computacionales y soluciones numéricas, podemos llegar a una solución. 
 
 ### Los números que mandan
 
-Dos parámetros adimensionales controlan todo el comportamiento:
+Tenemos dos parámetros adimensionales que controlan todo el comportamiento:
 
-- **Número de Prandtl**, $Pr = \nu/\alpha = 7$: compara qué tan rápido difunde el momento frente al calor. $Pr = 7$ corresponde al agua.
-- **Número de Rayleigh**, $Ra = \dfrac{g\beta \Delta T L^3}{\nu\alpha} = 2\times10^5$: mide qué tan fuerte es el empuje de flotabilidad frente a los frenos difusivos. A $Ra$ bajo el calor se transporta por pura conducción; a $Ra$ alto, la convección domina.
+- **Número de Prandtl**, $Pr = \nu/\alpha = 7$: Este número representa qué tan rápido se difunde el momento del fluido frente al calor. Para este caso se ocupo el valor de $Pr = 7$ que corresponde al agua.
+- **Número de Rayleigh**, $Ra = \dfrac{g\beta \Delta T L^3}{\nu\alpha} = 2\times10^5$: Este es responsable que mide qué tan fuerte es el empuje de flotabilidad frente a los frenos difusivos. A $Ra$ bajo el calor se transporta por pura conducción; a $Ra$ alto, hay mucho movimiento y la convección domina para distribuir el calor.
 
 De ellos se deriva el número de Reynolds efectivo de la formulación, $Re = \sqrt{Ra/Pr} \approx 169$.
 
@@ -81,14 +81,18 @@ cuyos contornos dibujan por dónde viaja la **energía** — el análogo térmic
 
 ## Resultados y discusión
 
-### El transiente: ¿por qué al principio se ve "caótico"?
 
-Si ves la animación, los primeros segundos ($t^* \lesssim 10$) parecen desordenados: las cuatro gráficas se retuercen, aparecen estructuras que se deshacen, nada parece estable. Es tentador llamarle "caos", pero **no lo es**, y la distinción importa.
+fotos de las graficas antes de la simulacion 
+
+
+###¿por qué al principio se ve "caótico"?
+
+En la animación, los primeros segundos ($t^* \lesssim 10$) parecen desordenados: las cuatro gráficas se retuercen, aparecen estructuras que se deshacen, nada parece estable. Es tentador llamarle "caos", pero **no lo es**, y la distinción importa.
 
 Caos determinista significa sensibilidad exponencial a las condiciones iniciales: dos estados casi idénticos que divergen sin remedio. Aquí no ocurre nada de eso. Lo que se ve es un **transiente**: el sistema parte de una condición inicial artificial (fluido en reposo con un perfil lineal de temperatura) que **no es solución de las ecuaciones**, y tiene que reorganizarse hasta encontrar el estado que sí lo es. En el camino compiten tres relojes distintos:
 
 1. **La flotabilidad** actúa de inmediato: el fluido pegado a la pared caliente recibe empuje y arranca chorros verticales delgados.
-2. **La advección** transporta esas estructuras por la cavidad más rápido de lo que
+2. **La advección** transporta esas estructuras por la cavidad
 3. **la difusión** (viscosa y térmica) alcanza a suavizarlas.
 
 Mientras estas escalas de tiempo no se equilibran, el flujo exhibe **oscilaciones amortiguadas**: el chorro caliente sube, choca con el techo, rebasa su posición de equilibrio, regresa. Cada oscilación es más débil que la anterior — exactamente lo contrario del caos, donde las perturbaciones crecen.
