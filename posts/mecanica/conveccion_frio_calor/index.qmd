@@ -11,17 +11,6 @@ format:
 ---
 ![Cavidad con diferencia de temperatura en sus paredes laterales](caja_ej.png)
 
-<!-- VIDEO: sustituye VIDEO_ID por el ID de YouTube del Reel -->
-<div style="display:flex; justify-content:center;">
-<iframe width="315" height="560"
-  src="https://www.youtube.com/embed/5FAD5-CVN2w"
-  title="Convección natural en una cavidad"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
-</div>
-
 ## Introducción
 
 Todos de una u otra manera hemos experimentado este fenomeno, un ejemplo en el que podemos pensar es si ponemos una olla con agua fría junto a una ventana que pueda entrar el sol, después de un tiempo si tocamos sus dos costados: uno estará tibio y el otro no. Es como pueden pensar la simulación. Entonces físicamente lo que pasa es que el fluido junto a la pared caliente se expande, se vuelve menos denso y empieza a querer flotar; el fluido junto a la pared fría se contrae y se hunde. Esto provocará un movimiento en el fluido, ya que al alejarse de las paredes cambia su temperatura, pero ahora el fluido que esta en las paredes se quiere mover en la forma en la que ya dijimos, por lo que empieza un movimiento llamado **convección natural**, y es el mecanismo detrás de las brisas marinas, la circulación del manto terrestre y hasta del patrón de las manchas solares.
@@ -82,11 +71,32 @@ cuyos contornos dibujan por dónde viaja la **energía** — el análogo térmic
 
 ## Resultados y discusión
 
+En la primera imagen, vemos 3 figuras. La primera de izquiera a derecha son las lineas de corriente, estas lineas nos muestran el camino en el que el agua va a tomar a forma en la que se va moviendo en la cavidad, aqui se observa que si es una celda convectiva, ya que podemos observar dos vórtices combinados en la cavidad, centrados pero uno cerca de la pared fria y otro cera de la pared caliente. Entre mas lejos y cerca de las paredes se encuentre una particula, más se va a mover a traves de la cavidad. Tambie se nota la alta densidad de lineas de corriente cerca de las paredes laterales, lo que significa que en ese punto el flujo es mas rápido. 
 
+La de siguente figura, la de en medio, se trata sobre las isotérmas, donde la temperatura es constante. Es claro como conforme el fluido se va al centro, las isotérmas se vuelvel horizontales. Se vuelven estáticas, el fluido caliente se mantiene arriba y el frio se mantiene abajo. En los laterales las isotérmas son verticales y muy juntas, por lo que el mayor intercambio de calor se da en estas zonas, también notamos como en el centro practicamente no hay cambios de temperatura, ni se calienta ni se enfria el liquido.
+
+Por último, observamos las lineas de calor, estas son como viaja el calor a traves del liquido, se observa como las lineas "nacen" de la pared caliente, suben a la parte superior y terminan en la pared fria, algunas lineas, las mas alejadas de las paredes se observan que continuan girando, como si los vortices los atraparan. Si tuvieramos un valor de Rayleigh bajo, el calor cruzaria horizontalemnte la cavidad. 
+
+Notamos que las 3 figuras se relacionan entre si, se entienden mejor observando las 3, en las 3 se observa claramente los 2 vórtices centrales, las isotérmicas y las lineas de calor muestran como el calor sube. Y como es un movimiento cíclico. Las 3 figuras muestran el mismo fenomeno acoplado.
+
+![Cavidad con diferencia de temperatura en sus paredes laterales](resultado.png)
+
+Tambien ...
+![Cavidad con diferencia de temperatura en sus paredes laterales](campo_vel.png)
 fotos de las graficas antes de la simulacion 
 
+<!-- VIDEO: sustituye VIDEO_ID por el ID de YouTube del Reel -->
+<div style="display:flex; justify-content:center;">
+<iframe width="315" height="560"
+  src="https://www.youtube.com/embed/5FAD5-CVN2w"
+  title="Convección natural en una cavidad"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen>
+</iframe>
+</div>
 
-###¿por qué al principio se ve "caótico"?
+### ¿por qué al principio se ve "caótico"?
 
 En la animación, los primeros segundos ($t^* \lesssim 10$) parecen desordenados: las cuatro gráficas se retuercen, aparecen estructuras que se deshacen, nada parece estable. Es tentador llamarle "caos", pero **no lo es**, y la distinción importa.
 
