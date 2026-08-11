@@ -2,13 +2,14 @@
 title: "Convección natural: cómo el calor se mueve en un fluido"
 description: "Simulación de una cavidad con diferencia de temperatura en sus paredes laterales con un fluido adentro."
 author: "Diego I. Inocente Gamboa"
-date: 2026-07-08
+date: 2026-08-11
 categories: [mecánica de fluidos, simulación]
 format:
   html:
     toc: true
     code-fold: true
 ---
+![Cavidad con diferencia de temperatura en sus paredes laterales](caja_ej.png)
 
 <!-- VIDEO: sustituye VIDEO_ID por el ID de YouTube del Reel -->
 <div style="display:flex; justify-content:center;">
