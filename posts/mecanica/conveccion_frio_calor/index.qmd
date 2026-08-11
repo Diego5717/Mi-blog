@@ -82,7 +82,7 @@ Notamos que las 3 figuras se relacionan entre si, se entienden mejor observando 
 
 
 
-![Cavidad con diferencia de temperatura en sus paredes laterales](resultado.png)
+![Resultados de la simulación, se observa 3 figuras, siendo: (a)lineas de corriente, (b)Isotérmas y (c)Lineas de calor.](resultado.png)
 
 
 
@@ -90,7 +90,7 @@ Tambien, sumando una figura más que ayuda a completar el comportamiento del flu
 
 
 
-![Cavidad con diferencia de temperatura en sus paredes laterales](campo_vel.png)
+![Fígura del campo de velocidades dentro de la cavidad.](campo_vel.png)
 
 
 
