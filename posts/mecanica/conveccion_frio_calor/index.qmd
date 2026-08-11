@@ -13,19 +13,19 @@ format:
 
 ## Introducción
 
-Todos de una u otra manera hemos experimentado este fenomeno, un ejemplo en el que podemos pensar es si ponemos una olla con agua fría junto a una ventana que pueda entrar el sol, después de un tiempo si tocamos sus dos costados: uno estará tibio y el otro no. Es como pueden pensar la simulación. Entonces físicamente lo que pasa es que el fluido junto a la pared caliente se expande, se vuelve menos denso y empieza a querer flotar; el fluido junto a la pared fría se contrae y se hunde. Esto provocará un movimiento en el fluido, ya que al alejarse de las paredes cambia su temperatura, pero ahora el fluido que esta en las paredes se quiere mover en la forma en la que ya dijimos, por lo que empieza un movimiento llamado **convección natural**, y es el mecanismo detrás de las brisas marinas, la circulación del manto terrestre y hasta del patrón de las manchas solares.
+Todos de una u otra manera hemos experimentado este fenomeno, un ejemplo en el que podemos pensar es si ponemos una olla con agua fría junto a una ventana que pueda entrar el sol, después de un tiempo si tocamos sus dos costados: uno estará tibio y el otro no. Es como pueden pensar la simulación. Entonces físicamente lo que pasa es que el fluido junto a la pared caliente se expande, se vuelve menos denso y empieza a querer flotar; el fluido junto a la pared fría se contrae y se hunde. Esto provocará un movimiento en el fluido, ya que al alejarse de las paredes cambia su temperatura, pero ahora el fluido que esta en las paredes se quiere mover en la forma en la que ya dijimos, por lo que empieza un movimiento llamado convección natural, y es el mecanismo detrás de las brisas marinas, la circulación del manto terrestre y hasta del patrón de las manchas solares.
 
-En mi simulación, es el caso clásico: una **cavidad cuadrada** cuya pared izquierda se mantiene caliente ($T_H = 1$), la derecha fría ($T_C = 0$), y las paredes horizontales son adiabáticas (no dejan pasar calor). El fluido parte del reposo absoluto, entonces **¿cómo nace la circulación y cómo se ve el estado final?**
+En mi simulación, es el caso clásico: una cavidad cuadrada cuya pared izquierda se mantiene caliente ($T_H = 1$), la derecha fría ($T_C = 0$), y las paredes horizontales son adiabáticas (no dejan pasar calor). El fluido parte del reposo absoluto con el efecto de la gravedad, entonces ¿cómo nace la circulación y cómo se ve el estado final?
 
 ### Las ecuaciones
 
-El problema está gobernado por tres leyes de conservación acopladas, escritas aquí en forma adimensional bajo la aproximación de **Boussinesq**, esta aproximación nos dice que la densidad solo varía con la temperatura, y esa variación solo modificará el valor de la flotabilidad. 
+El problema está gobernado por tres leyes de conservación acopladas, escritas aquí en forma adimensional bajo la aproximación de Boussinesq, esta aproximación nos dice que la densidad solo varía con la temperatura, y esa variación solo modificará el valor de la flotabilidad. 
 
 **Conservación de masa (continuidad):**
 $$
 \nabla \cdot \vec{u} = 0
 $$
-El fluido es incompresible: lo que entra a cualquier volumen, sale.
+El fluido es incompresible: lo que entra a cualquier volumen, sale. No existen fuentes ni sumideros.
 
 **Conservación de momento (Navier–Stokes + Boussinesq):**
 $$
@@ -35,6 +35,7 @@ $$
 + \underbrace{\frac{1}{Re}\nabla^2\vec{u}}_{\text{difusión viscosa}}
 + \underbrace{Pr\, T\, \hat{\jmath}}_{\text{flotabilidad}}
 $$
+Es la segunda ley de Newton para un fluido. De izquierda a derecha. Es la aceleración local mas a advección, que iguala a la fuerza de presión mas la fricción viscosa mas la flotabilidad de Boussinesq. 
 
 **Conservación de energía:**
 $$
@@ -47,10 +48,10 @@ El acoplamiento es el corazón del problema, la temperatura genera movimiento a 
 
 Tenemos dos parámetros adimensionales que controlan todo el comportamiento:
 
-- **Número de Prandtl**, $Pr = \nu/\alpha = 7$: Este número representa qué tan rápido se difunde el momento del fluido frente al calor. Para este caso se ocupo el valor de $Pr = 7$ que corresponde al agua.
-- **Número de Rayleigh**, $Ra = \dfrac{g\beta \Delta T L^3}{\nu\alpha} = 2\times10^5$: Este es responsable que mide qué tan fuerte es el empuje de flotabilidad frente a los frenos difusivos. A $Ra$ bajo el calor se transporta por pura conducción; a $Ra$ alto, hay mucho movimiento y la convección domina para distribuir el calor.
+- **Número de Prandtl**, $Pr = \nu/\alpha = 7$: Este número representa qué tan rápido se difunde el momento (viscosidad) del fluido frente al calor. Para este caso se ocupo el valor de $Pr = 7$ que corresponde al agua.
+- **Número de Rayleigh**, $Ra = \dfrac{g\beta \Delta T L^3}{\nu\alpha} = 2\times10^5$: Este es responsable que mide qué tan fuerte es el empuje de flotabilidad frente a los frenos difusivos. Mide la intensidad de la convección. A $Ra$ bajo el calor se transporta por pura conducción; a $Ra$ alto, hay mucho movimiento y la convección domina para distribuir el calor.
 
-De ellos se deriva el número de Reynolds efectivo de la formulación, $Re = \sqrt{Ra/Pr} \approx 169$.
+De ellos se deriva el número de Reynolds efectivo de la formulación, $Re = \sqrt{Ra/Pr} \approx 169$. Que es el cociente entre las fuerzas inerciales y viscosas.
 
 ## Metodología
 
@@ -79,11 +80,23 @@ Por último, observamos las lineas de calor, estas son como viaja el calor a tra
 
 Notamos que las 3 figuras se relacionan entre si, se entienden mejor observando las 3, en las 3 se observa claramente los 2 vórtices centrales, las isotérmicas y las lineas de calor muestran como el calor sube. Y como es un movimiento cíclico. Las 3 figuras muestran el mismo fenomeno acoplado.
 
+
+
 ![Cavidad con diferencia de temperatura en sus paredes laterales](resultado.png)
 
-Tambien ...
+
+
+Tambien, sumando una figura más que ayuda a completar el comportamiento del fluido es la que se muestra abajo. Es el campo de velocidades, y una vez más, notamos como se complementa con las 3 figuras anteriores vistas. Donde la parte donde más rápido se mueve el líquido es en las paredes laterales, donde está mas caliente o más fría. En la parte superior e inferior se reduce la velocidad del movimiento del liquido. En el centro, donde corresponde el lugar de los vertices o donde no hay intercambio de calor. La velocidad es practicamente nula.
+
+
+
 ![Cavidad con diferencia de temperatura en sus paredes laterales](campo_vel.png)
-fotos de las graficas antes de la simulacion 
+
+
+
+Se hizo una animación sobre las imagenes pasadas para poder observar como se desarrolla el sistema a través del tiempo, desde el momento donde empieza el movimiento hasta que se estabiliza.
+
+
 
 <!-- VIDEO: sustituye VIDEO_ID por el ID de YouTube del Reel -->
 <div style="display:flex; justify-content:center;">
@@ -96,37 +109,33 @@ fotos de las graficas antes de la simulacion
 </iframe>
 </div>
 
+
+
 ### ¿por qué al principio se ve "caótico"?
 
-En la animación, los primeros segundos ($t^* \lesssim 10$) parecen desordenados: las cuatro gráficas se retuercen, aparecen estructuras que se deshacen, nada parece estable. Es tentador llamarle "caos", pero **no lo es**, y la distinción importa.
 
-Caos determinista significa sensibilidad exponencial a las condiciones iniciales: dos estados casi idénticos que divergen sin remedio. Aquí no ocurre nada de eso. Lo que se ve es un **transiente**: el sistema parte de una condición inicial artificial (fluido en reposo con un perfil lineal de temperatura) que **no es solución de las ecuaciones**, y tiene que reorganizarse hasta encontrar el estado que sí lo es. En el camino compiten tres relojes distintos:
+En la animación, los primeros segundos ($t^* \lesssim 10$) parecen desordenados: las cuatro gráficas se retuercen, aparecen estructuras que se deshacen, nada parece estable. Es tentador llamarle "caos", pero no lo es, y la distinción importa.
+
+Caos determinista significa sensibilidad exponencial a las condiciones iniciales: dos estados casi idénticos que divergen sin remedio. Aquí no ocurre nada de eso. Lo que se ve es un transiente: el sistema parte de una condición inicial artificial (fluido en reposo con un perfil lineal de temperatura) que no es solución de las ecuaciones, y tiene que reorganizarse hasta encontrar el estado que sí lo es. En el camino compiten tres relojes distintos:
 
 1. **La flotabilidad** actúa de inmediato: el fluido pegado a la pared caliente recibe empuje y arranca chorros verticales delgados.
 2. **La advección** transporta esas estructuras por la cavidad
 3. **la difusión** (viscosa y térmica) alcanza a suavizarlas.
 
-Mientras estas escalas de tiempo no se equilibran, el flujo exhibe **oscilaciones amortiguadas**: el chorro caliente sube, choca con el techo, rebasa su posición de equilibrio, regresa. Cada oscilación es más débil que la anterior — exactamente lo contrario del caos, donde las perturbaciones crecen.
+Mientras estas escalas de tiempo no se equilibran, el flujo exhibe oscilaciones amortiguadas: el chorro caliente sube, choca con el techo, rebasa su posición de equilibrio, regresa. Cada oscilación es más débil que la anterior — exactamente lo contrario del caos, donde las perturbaciones crecen.
 
-Hay además un motivo **puramente visual** que hay que confesar: en la animación, los contornos de $\psi$ y $H$ se normalizan cuadro a cuadro para que siempre se vea la *forma* del flujo. Al inicio, cuando las magnitudes son diminutas ($|\psi| \sim 10^{-4}$ contra $\sim 10^{-2}$ al final), esa normalización amplifica fluctuaciones minúsculas hasta llenar toda la escala de color. El panel de velocidad, que sí usa escala fija, cuenta la historia honesta: al principio casi no hay movimiento. Moraleja de visualización científica: **la escala de colores es parte del resultado**.
+Hay además un motivo puramente visual que hay que confesar: en la animación, los contornos de $\psi$ y $H$ se normalizan cuadro a cuadro para que siempre se vea la forma del flujo. Al inicio, cuando las magnitudes son diminutas ($|\psi| \sim 10^{-4}$ contra $\sim 10^{-2}$ al final), esa normalización amplifica fluctuaciones minúsculas hasta llenar toda la escala de color. El panel de velocidad, que sí usa escala fija, cuenta la historia honesta: al principio casi no hay movimiento. Moraleja de visualización científica es que la escala de colores es parte del resultado.
 
 ### El estado estacionario
 
-Hacia $t^* \approx 30$ el sistema encuentra su equilibrio dinámico y ya no cambia visiblemente:
+Hacia $t^* \approx 30$ el sistema encuentra su equilibrio dinámico y ya no cambia visiblemente, y llegamos a las imágenes anteriores mencionadas. La 
+velocidad en los máximos son ($|\vec{u}| \approx 0.24$) viven en las capas límite verticales; el centro de la cavidad está casi quieto.
 
-- **Temperatura:** el interior se estratifica (capas horizontales, caliente arriba) y los gradientes se concentran en **capas límite delgadas** pegadas a las paredes activas. La conducción pura daría isotermas verticales; la convección las acuesta.
-- **Líneas de corriente:** una gran celda que gira en sentido horario, con **dos vórtices internos** — la firma característica de $Ra$ alto, tal como reporta la literatura (Griebel *et al.*, Fig. 9.5).
-- **Heatlines:** el calor ya no cruza la cavidad en línea recta; entra por la pared caliente, es capturado por la circulación y viaja en espiral hasta la pared fría. La mayor parte de la energía viaja por el perímetro, montada en el fluido.
-- **Velocidad:** los máximos ($|\vec{u}| \approx 0.24$) viven en las capas límite verticales; el centro de la cavidad está casi quieto.
-
-El transporte de calor global se cuantifica con el **número de Nusselt**, $Nu \approx 5.4$: la convección mueve unas cinco veces más calor del que movería la conducción sola.
+El transporte de calor global se cuantifica con el número de Nusselt, $Nu \approx 5.4$, la convección mueve unas cinco veces más calor del que movería la conducción sola.
 
 ## Conclusiones
 
-1. La convección natural nace de un acoplamiento de ida y vuelta: la temperatura empuja al fluido y el fluido arrastra a la temperatura.
-2. El "desorden" inicial de la simulación no es caos sino un **transiente con oscilaciones amortiguadas**, producto de partir de una condición inicial que no es solución de las ecuaciones y de la competencia entre advección, flotabilidad y difusión.
-3. Parte de ese desorden aparente es un artefacto de visualización: normalizar contornos cuadro a cuadro amplifica campos casi nulos. Vale la pena decirlo en voz alta, porque es una lección general sobre cómo leer animaciones científicas.
-4. El estado estacionario a $Ra = 2\times10^5$ muestra estratificación térmica, capas límite delgadas, una celda con dos vórtices internos y $Nu \approx 5.4$, en acuerdo con los resultados de referencia.
+La convección natural nace de un acoplamiento de ida y vuelta, la temperatura empuja al fluido y el fluido arrastra a la temperatura. El "desorden" inicial de la simulación no es caos sino un transiente con oscilaciones amortiguadas, producto de partir de una condición inicial que no es solución de las ecuaciones y de la competencia entre advección, flotabilidad y difusión. Parte de ese desorden aparente es un artefacto de visualización: normalizar contornos cuadro a cuadro amplifica campos casi nulos. Vale la pena decirlo en voz alta, porque es una lección general sobre cómo leer animaciones científicas. El estado estacionario a $Ra = 2\times10^5$ muestra estratificación térmica, capas límite delgadas, una celda con dos vórtices internos y $Nu \approx 5.4$, en acuerdo con los resultados de referencia. 
 
 ## Bibliografía
 
