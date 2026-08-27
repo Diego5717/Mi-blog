@@ -21,6 +21,13 @@ El sentimiento de cuando despega un avión comercial es único, pero cual es la 
 :::
 :::
 
+:::
+
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
 ### Dinámica de un fluido con diferencia de temperatura.
 
 [Mecánica]{.tag} [Fluidos]{.tag} [Medios Deformables]{.tag}
