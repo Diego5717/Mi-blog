@@ -14,16 +14,11 @@ format:
 
 ## Introducción
 
-Un avión comercial es un laboratorio de física que además te lleva de vacaciones. Acelera de cero a más de 300 km/h en menos de un minuto, se despega del suelo, sube varios kilómetros y mantiene, mientras tanto, una burbuja de aire a presión distinta a la de afuera. Todo eso deja huellas medibles, y resulta que el instrumento para detectarlas ya viene en el bolsillo: un teléfono tiene acelerómetro, giroscopio, magnetómetro, barómetro y GPS.
+He escuchado como hay gente que le tiene miedo a viajar en avión, aunque no conozco las razones concretas por la que le tienen miedo puedo imaginarme al menos 2. Es el despegue y el aterrizaje, ya que involucra una gran aceleración, desaceleración y despegarse del piso. Son sensaciones que difícilmente uno experimenta en su cotidianidad. Pero justo ahí es donde me llegaron las dudas sobre la cinemática de un avión en despegue y aterrizaje. Este post solo tratará sobre el despegue. 
 
-La pregunta que quise responder es simple: **¿cuánto de la física de un despegue se puede reconstruir sin más equipo que un celular?**
+Un avión comercial es un gran objeto de estudio de física. Tiene mucha ciencia e ingenería detras, desde como funcionan las turbinas, la física de vuelo hasta los materiales que se deben ocupar para contruir un avión y pueda resistir todas las fuerzas a la que se expone. Por ejemplo, se acelera de cero a más de 300 km/h en menos de un minuto, se despega del suelo, sube varios kilómetros. Entonces esto es medible, y resulta que un buen instrumento de medición y accesible es el teléfono, ya que los teléfonos modernos traen buenos sensores como acelerómetro, giroscopio, magnetómetro, barómetro y GPS.
 
-La respuesta corta es: bastante más de lo que esperaba, incluyendo una cosa que no estaba buscando y que terminó siendo lo más interesante del experimento. El barómetro del teléfono no mide la atmósfera. Mide la cabina. Y esa diferencia, que al principio parecía un error de medición, es en realidad una medición directa —y accidental— del sistema de presurización del avión.
-
-::: {.callout-note}
-## Lo que vas a encontrar aquí
-Tres cosas medidas, no estimadas: el instante exacto en que las ruedas dejan el piso, la diferencia entre despegar a 2 230 m y hacerlo a nivel del mar, y la brecha entre la altitud real del avión y la altitud que "siente" tu cuerpo dentro de la cabina.
-:::
+La aplicación se llama Phyphox, es una aplicación que ocupe en el laboratorio de mecánica durante la licenciatura, ya que los instrumentos de medición del laboratorio son analógicos y un poco viejos. Por lo que ocupar tu teléfono era una opcion viable. Asi que tenia la duda sobre la capacidad de la aplicación en esta situación. 
 
 ## Metodología
 
@@ -80,17 +75,17 @@ con $p_0 = 1013.25$ hPa. Como se verá, aplicar esto a los datos del teléfono d
 
 ### Reproducibilidad
 
-Todo el procesamiento está en Python (NumPy, SciPy, Matplotlib). Los archivos crudos exportados de phyphox y los scripts de análisis están en [ENLACE AL REPO].
+Todo el procesamiento está en Python (NumPy, SciPy, Matplotlib). Los archivos crudos fueron exportados de phyphox.
 
 ::: {.callout-warning}
 ## Dos problemas honestos con los datos
 
-**1. La grabación tiene cortes ocultos.** phyphox pausa el reloj del experimento cuando la app se interrumpe, así que al reanudar el tiempo continúa como si nada. En los datos se ve como un salto físicamente imposible: en el vuelo de regreso, la presión cae 199 hPa en 0.2 s. Ningún avión hace eso. Detecté cortes en $t = 479$ s (ida) y $t = 515$ s (regreso), y **corté todos los análisis antes de esos puntos**.
+**1. La grabación tiene cortes ocultos.** phyphox pausa el reloj del experimento cuando la app se interrumpe, así que al reanudar el tiempo continúa como si nada. En los datos se ve como un salto físicamente imposible: en el vuelo de regreso, la presión cae 199 hPa en 0.2 s. Ningún avión hace eso. Detecté cortes en $t = 479$ s (ida) y $t = 515$ s (regreso), y corté todos los análisis antes de esos puntos. Esto lo hice ya que no queria medir todo, todo el tiempo, solo puntos importantes.
 
 **2. El sensor de actitud está inservible.** Los canales de *pitch* y *roll* dan valores de hasta ±10 000°, probablemente porque el teléfono iba suelto en la mano y el filtro de orientación nunca convergió. No usé nada de ese sensor.
 :::
 
-## Resultados
+## Resultados y Discusión 
 
 ### El vuelo de ida: CDMX → Miami
 
@@ -105,6 +100,17 @@ La secuencia se lee de arriba abajo:
 
 Al final del tramo limpio el avión está a **3 898 m** y **567 km/h**, habiendo ganado 1 657 m de altura en 267 s.
 
+En la primera gráfica, se observa el comportamiento de la velocidad, cuando es menor a los 84 segundos, la velocidad es practicamente horizontal, no hay aumento en la velocidad practicamente tenemos velocidad constante tendiendo a cero, estos datos corresponden al avión preparandose para empezar el despegue. Del segundo 84 al 131, entre las lineas punteadas, notamos como la pendiente de la curva aumenta drásticamente, el avión pasó de 0 a 370 km/h en 47 segundos, desconozco la información de pilotaje, pero al menos de todo el despegue, estos 47 segundos es cuando lo motores usan la mayor cantidad de fuerza para lograr ese aumento de velocidad. Esta parte es el avión consiguendo la velocidad necesaria para lograr un buen despegue. A partir del segundo 131 a 165 es el avión ya sin las ruedas en el piso, aunque se nota como la velocidad deja de aumentar tanto, sigue aumentando, aproximadamente sube unos 40 km/h los primeros 34 segundos de despegue. Despues notamos como sube la velocidad hasta 600 km/h con más tiempo de por medio. Sigue aumentando su velocidad pero ya no se siente de manera brusca en el asiento. Recordando que la velocidad es un vector, si decimos que en este tiempo medido el avión sigue una linea recta, su dirección y sentido son las mismas, pero su magnitud es la que va cambiando entre los caso. Entre mas velocidad mas aumenta su magnitud llegando hasta los 600 km/h. La curva con un azul mas claro representa la altitud medida por el gps, pero notamos como la pista de despegue no tiene inclinación, y su acenso es practicamente un comportamiento lineal, constante. Es curioso comparar estas dos curvas, mientras el ascenso es constante, el mayor aumento de velocidad es al principio y va decayendo, significando que el avión ya no necesita tanto aumento de velocidad para subir. 
+
+En física, la aceleración se define como el cambio de velocidad, por lo que la segunda gráfica se complementa con la primera, en la primera hablamos de como varió la velcidad con el tiempo, practicamente estabamos hablando de la aceleración. En la segunda gráfica observamos la aceleración en los 3 ejes. Como partimos del reposo, la aceleración en el eje x y en el eje y, son cero. Y en el eje z es la aceleración de la gravedad de la tierra. El empuje de los motores se nota como su mayor aumento es al arrancar, romper el estado de reposo. Después decae un poco y vuelve a acelerar coincidiendo con el evento del despegue, despues hay unas pequeñas perturbaciones para poder seguir subiendo, pero en tendencia decae ligeramente y encuentra valores constantes. Los valores de la aceleración en x son practicamente ruido y movimientos en la aceleración principal. Tambien hay puntos importantes, hay demasiado ruido antes del despegue, ya que como vimos, la aceleración que experimentamos tan fuerte, hace que el avión sufra estres sobre su cuerpo. Pero justo en el evento de despegue se observa como aumenta y descae rapidamente, recuerden que la aceleración en z representa nuestra sensación de gravedad, por lo que desde el evento de despegue y hasta lo 350 segundos, vamos a tener las sensaciónes de como si nos jalara el asiento o nos levantaramos, o el mas evidente el sentimiento en el estomago. 
+
+La tercera gráfica es el ruido que se mete por las irregularidades de la pavimentación y los movimientos del tren de aterrizaje. Se nota como en la aceleración principal, es cuando los valores de vibración aumentan de manera destacable. Pero fuera de esa región, practicmanete es ruido que mete el sensor en el teléfono, ya que podemos observar los mismos valores cuando estamos parados, que cuando estamos en el aire, por eso podemos asegurar el punto exacto de inicio de aceleración y el despegue. Dado la vibración del teléfono. 
+
+La cuarta gráfica, representa los movimientos del avión. Si el avión hiciera vueltas, giros, etc. Se notaria en estas gráficas. Pero dado que el despegue es practicamente en linea recta, los valores se mantienen alrededor del cero. Unicamente se observa una vuelta que dio el avión para acomodarse en el tren de aterrizaje. 
+
+La última gráfica, nos dice como se presuriza la cabina del avión y la presurización atmosférica. Al aumentar altura vemos como decae la presión atmosferica y la de la cabina mantiene sus valores para que no sea un peligro para nosotros, los que vamos arriba de un avión. 
+
+
 ### El vuelo de regreso: Miami → CDMX
 
 ![Despegue desde Miami. Sin GPS en este vuelo, así que la altitud mostrada es la de cabina, derivada del barómetro.](vuelo_B_miami_despegue.png)
@@ -115,60 +121,35 @@ Misma estructura, sin GPS. Aquí el panel de $a_z$ hace el trabajo que en el otr
 - **$t = 224$ s** — Despegue. La carrera duró apenas **32 s**.
 - **$t \approx 247$ s** — $a_z$ cae a **7.66 m/s² = 0.78 g**. Esa es, literalmente, la sensación de ligereza en el estómago cuando el avión reduce el ritmo de ascenso tras el empujón inicial.
 
+En las 5 gráficas notamos practicamente el mismo comportamiento que con el primero vuelo. Aunque con sus pocas diferencias dado el cambio de condiciones. La primera gráfica en este caso no hubo oportunidad de medir la velocidad por medio de GPS, aunque si mide la altitud. El cambio de condiciones en este caso, es que el vuelo ahora empezo al nivel del mar. Por lo que presuriza la cabina en el momento del despegue y sube hasta 160 metros. Los datos de altura son extraños, ya que el avión sube más, es por los sensores del teléfono, que el teléfono esta dentro de la cabina y mide la presión de la cabina. Al no tener GPS, estos valores salieron del sensor de presión. 
+
+La gráfica de aceleración es practicamente la misma forma que comentamos en el primer vuelo, en este caso la aceleración incial es un poco mayor. Las siguentes 2 gráficas, tiene el mismo comportamiento, es algo que se esperaba, estas 2 gráficas no dicen que las mediciones son reproducibles, nos da valides y nos dice lo estándar de un despegue de avión comercial de ese tipo. Aunque por expriencia en el vuelo, la curva roja de la cuarta gráfica se ve asi en el ascenso ya que el despegue es hacia el norte y tiene que dar la vuelta para ir en dirección de México. 
+
+La ultima gráfica nos dice que partimos de la presurización a nivel del mar y conforme aumentamos la altitud, llega a los valores minimos permitidos para nuestra salud, es un decaimiento constante, ya que no puede ser muy rápido, ya que puede causar problemas en cierto tipo de personas. Esta presión, recordando es la de la cabina, ya que la presión atmosferica debe de bajar los valores aún mas por la altura en la que llega el avión. 
+
+
 ### La comparación
 
 ![Los dos despegues alineados en el instante en que las ruedas dejan el piso ($t = 0$).](comparacion_despegues.png)
 
-Poner los dos vuelos en el mismo eje, con el origen en el despegue, hace visible lo que ninguna gráfica individual mostraba.
-
-**La carrera de despegue en CDMX duró 48 s; la de Miami, 32 s.** Un 50 % más de tiempo sobre la pista para el mismo tipo de operación.
-
-Esto tiene una explicación directa. La sustentación depende de la densidad del aire:
+Poner los dos vuelos en el mismo eje, con el origen en el despegue, hace visible lo que ninguna gráfica individual nos decía. La carrera de despegue en CDMX duró 48 s; la de Miami, 32 s. Un 50 % más de tiempo sobre la pista para el mismo tipo de operación. Esto es por la diferencia de altura entre CDMX y Miami, la sustentación depende de la densidad del aire, por lo que:
 
 $$L = \tfrac{1}{2}\,\rho\, v^2 S\, C_L$$
 
-A 2 230 m de altura la densidad del aire es aproximadamente un 20 % menor que a nivel del mar. Con menos $\rho$, el avión necesita más $v$ para generar la misma $L$, y llegar a esa velocidad mayor exige más pista y más tiempo. El aeropuerto de la Ciudad de México es conocido por esto entre pilotos: la altitud penaliza tanto la sustentación como el empuje de los motores.
+A 2 230 m de altura (CDMX) la densidad del aire es aproximadamente un 20 % menor que a nivel del mar. Con menos $\rho$, el avión necesita más $v$ para generar la misma $L$, y llegar a esa velocidad mayor exige más pista y más tiempo. El aeropuerto de la Ciudad de México, la altitud penaliza tanto la sustentación como el empuje de los motores.
 
-### El hallazgo que no buscaba
+Durante el ascenso desde CDMX, el GPS registra una subida real de 2 229 a 3 898 m. La presión atmosférica exterior, a esas altitudes, debería caer de unos 780 a unos 630 hPa, una caída de ~150 hPa. Pero el barómetro del teléfono registró una caída de 8 hPa. No es un error del sensor. El barómetro está funcionando perfectamente, como ya comente, no está midiendo la atmósfera, está midiendo la cabina. El sistema de presurización del avión mantiene el interior a una presión mucho mayor que la exterior, y el teléfono, que va adentro, sólo puede medir lo de adentro. Como se ve en las gráficas mientras el avión subía 1 669 m reales, la cabina "subió" unos 90 m.
 
-Y aquí viene lo bueno. Miren el último panel de la primera figura.
+Hay un segundo detalle, que aparece en los dos vuelos, la presión de cabina sube ~6 hPa durante la carrera de despegue, antes de que el avión se despegue del suelo. El sistema empieza a presurizar en tierra, de modo que la cabina arranca ligeramente por encima de la presión ambiente. En la gráfica de Miami esto se ve como una altitud de cabina que baja por debajo del nivel del mar justo antes del despegue.
 
-Durante el ascenso desde CDMX, el GPS registra una subida real de **2 229 a 3 898 m**. La presión atmosférica exterior, a esas altitudes, debería caer de unos 780 a unos 630 hPa: **una caída de ~150 hPa**.
+El resultado más sólido del análisis viene de tirar la información y quedarse con el ruido. La desviación estándar del acelerómetro no depende de la orientación del teléfono, ni de si el avión está acelerando, ni de la gravedad, sólo de si hay o no una fuente de vibración mecánica acoplada. Como el contacto rueda-pavimento es esa fuente, y desaparece de forma discreta, el detector es casi ideal. Es un buen ejemplo de que la parte "sucia" de una señal a veces contiene el dato más limpio.
 
-El barómetro del teléfono registró una caída de **8 hPa**.
-
-No es un error del sensor. El barómetro está funcionando perfectamente — lo que pasa es que **no está midiendo la atmósfera, está midiendo la cabina**. El sistema de presurización del avión mantiene el interior a una presión mucho mayor que la exterior, y el teléfono, que va adentro, sólo puede medir lo de adentro.
-
-Dicho de otro modo: mientras el avión subía 1 669 m reales, **la cabina "subió" unos 90 m**.
-
-Hay un segundo detalle, más sutil, que aparece en los dos vuelos: **la presión de cabina sube ~6 hPa durante la carrera de despegue**, antes de que el avión se despegue del suelo. El sistema empieza a presurizar en tierra, de modo que la cabina arranca ligeramente por encima de la presión ambiente. En la gráfica de Miami esto se ve como una altitud de cabina que baja por debajo del nivel del mar justo antes del despegue.
-
-## Discusión
-
-### Qué mide realmente cada sensor
-
-La lección metodológica del experimento es que **el sensor mide lo que lo rodea, no lo que uno quiere medir**. Suena obvio escrito así, pero es exactamente el error que casi cometo: aplicar la fórmula barométrica a los datos del teléfono y reportar "altitud del avión". El número que sale de ahí no es la altitud del avión; es la altitud equivalente de la cabina, que es una cantidad distinta y bastante más aburrida... salvo que uno se dé cuenta de que acaba de medir el sistema de presurización.
-
-Esto explica también por qué el vuelo de regreso es más limitado: sin GPS no hay forma de conocer la altitud real, y la única señal disponible es precisamente la que no responde a la altitud real. Por eso en el reel de ese vuelo la trayectoria del avión es ilustrativa, no medida.
-
-### Por qué la vibración es mejor detector que la aceleración
-
-El resultado más sólido del análisis viene de tirar la información y quedarse con el ruido. La desviación estándar del acelerómetro no depende de la orientación del teléfono, ni de si el avión está acelerando, ni de la gravedad — sólo de si hay o no una fuente de vibración mecánica acoplada. Como el contacto rueda-pavimento es esa fuente, y desaparece de forma discreta, el detector es casi ideal.
-
-Es un buen ejemplo de que **la parte "sucia" de una señal a veces contiene el dato más limpio**.
-
-### Limitaciones
-
-Vale la pena ser explícito sobre lo que este experimento no puede afirmar:
+Vale la pena ser explícito sobre lo que este experimento no puede afirmar
 
 - **El teléfono no estaba fijo.** Los ejes $x$, $y$, $z$ no coinciden con los ejes del avión, y esa relación pudo cambiar durante el vuelo. Los valores de $a_y$ como "eje longitudinal" son una aproximación razonable durante el despegue —cuando el teléfono estuvo quieto— pero no una calibración.
 - **La altitud GPS tiene error propio**, típicamente peor que la horizontal, y la serie tiene huecos (uno de 93 s).
 - **$n = 2$.** Dos vuelos no permiten separar el efecto de la altitud del aeropuerto de otras variables: modelo de avión, peso al despegue, temperatura, viento, procedimiento del piloto. La explicación por densidad del aire es física y sólida, pero estos datos son *consistentes* con ella, no una demostración.
 - **Las tasas de ascenso** están calculadas sobre muestras GPS contiguas para evitar artefactos de los huecos; hacerlo ingenuamente daba valores absurdos de 8 000 ft/min.
-
-### Qué haría diferente
-
-Fijar el teléfono a una superficie con orientación conocida, verificar que el GPS esté activo antes de despegar (el vuelo de regreso perdió esa mitad del experimento), y no dejar que la app se pause — los cortes ocultos son el problema más traicionero porque no dejan hueco visible en el eje de tiempo.
 
 ## Conclusiones
 
