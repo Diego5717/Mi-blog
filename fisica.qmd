@@ -11,6 +11,16 @@ Dividido por las áreas de la física, aqui se pueden ver los pequeños estudios
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.sim-card}
+### Despegue de un avión comercial.
+
+[Mecánica]{.tag} [Aviación]{.tag} [Phyphox]{.tag}
+
+El sentimiento de cuando despega un avión comercial es único, pero cual es la cinemática de un avión al momento de despeguar y cuales son todos los eventos importantes. 
+
+[Ver →](posts/mecanica/despegue_avion/index.qmd){.btn-ver}
+:::
+:::
+
 ### Dinámica de un fluido con diferencia de temperatura.
 
 [Mecánica]{.tag} [Fluidos]{.tag} [Medios Deformables]{.tag}
