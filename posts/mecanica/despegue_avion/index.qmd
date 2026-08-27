@@ -1,9 +1,9 @@
 ---
-title: "Medí el despegue de un avión con mi celular"
-subtitle: "Qué se puede aprender de un vuelo comercial con los sensores que ya traes en el bolsillo"
-author: "TU NOMBRE"
-date: 2026-08-25
-categories: [física, mediciones, phyphox, aviación]
+title: "El despegue de un avión"
+subtitle: "Qué se puede aprender de un vuelo comercial con los sensores de tu teléfono"
+author: "Diego I. Inocente Gamboa"
+date: 2026-08-27
+categories: [mecánica, phyphox, aviación]
 image: comparacion_despegues.png
 format:
   html:
