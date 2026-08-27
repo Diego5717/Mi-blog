@@ -14,7 +14,7 @@ format:
 
 ## Introducción
 
-Hay gente que le tiene miedo a viajar en avión. No conozco las razones concretas de cada quien, pero puedo imaginarme al menos dos momentos que concentran esa incomodidad: el despegue y el aterrizaje. Ambos involucran una gran aceleración, una desaceleración y el hecho de despegarse del piso — sensaciones que difícilmente uno experimenta en su cotidianidad. Y justo ahí me llegaron las dudas sobre la cinemática de un avión durante esas dos maniobras. Este post trata solamente sobre el despegue.
+Hay gente que le tiene miedo a viajar en avión. No conozco las razones concretas de cada quien, pero puedo imaginarme al menos dos momentos que concentran esa incomodidad: el despegue y el aterrizaje. Ambos involucran una gran aceleración, una desaceleración y el hecho de despegarse del piso, sensaciones que difícilmente uno experimenta en su cotidianidad. Y justo ahí me llegaron las dudas sobre la cinemática de un avión durante esas dos maniobras. Este post trata solamente sobre el despegue.
 
 Un avión comercial es un gran objeto de estudio de física. Tiene mucha ciencia e ingeniería detrás: desde cómo funcionan las turbinas y la física del vuelo, hasta los materiales con los que hay que construirlo para que resista todas las fuerzas a las que se expone. Acelera de cero a más de 300 km/h en menos de un minuto, se despega del suelo y sube varios kilómetros en cuestión de minutos. Todo eso es medible. Y resulta que un buen instrumento de medición, además accesible, es el teléfono: los celulares modernos traen acelerómetro, giroscopio, magnetómetro, barómetro y GPS.
 
