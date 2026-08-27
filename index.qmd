@@ -15,6 +15,23 @@ Aquí es un espacio digital en el cual construyo simulaciones, escribo y trato d
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.sim-card}
+### Despegue de un avión comercial.
+
+[Mecánica]{.tag} [Aviación]{.tag} [Phyphox]{.tag}
+
+¿Que fenomenos experimentamos a la hora del despegue de un avión?
+
+[Ver →](posts/mecanica/despegue_avion/index.qmd){.btn-ver}
+:::
+:::
+
+:::
+
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.sim-card}
 ### Comportamiento de una multitud
 
 [Física Estadística]{.tag} [Fluidos]{.tag}
