@@ -14,11 +14,64 @@ format:
 
 ## Introducción
 
-He escuchado como hay gente que le tiene miedo a viajar en avión, aunque no conozco las razones concretas por la que le tienen miedo puedo imaginarme al menos 2. Es el despegue y el aterrizaje, ya que involucra una gran aceleración, desaceleración y despegarse del piso. Son sensaciones que difícilmente uno experimenta en su cotidianidad. Pero justo ahí es donde me llegaron las dudas sobre la cinemática de un avión en despegue y aterrizaje. Este post solo tratará sobre el despegue. 
+Hay gente que le tiene miedo a viajar en avión. No conozco las razones concretas de cada quien, pero puedo imaginarme al menos dos momentos que concentran esa incomodidad: el despegue y el aterrizaje. Ambos involucran una gran aceleración, una desaceleración y el hecho de despegarse del piso — sensaciones que difícilmente uno experimenta en su cotidianidad. Y justo ahí me llegaron las dudas sobre la cinemática de un avión durante esas dos maniobras. Este post trata solamente sobre el despegue.
 
-Un avión comercial es un gran objeto de estudio de física. Tiene mucha ciencia e ingenería detras, desde como funcionan las turbinas, la física de vuelo hasta los materiales que se deben ocupar para contruir un avión y pueda resistir todas las fuerzas a la que se expone. Por ejemplo, se acelera de cero a más de 300 km/h en menos de un minuto, se despega del suelo, sube varios kilómetros. Entonces esto es medible, y resulta que un buen instrumento de medición y accesible es el teléfono, ya que los teléfonos modernos traen buenos sensores como acelerómetro, giroscopio, magnetómetro, barómetro y GPS.
+Un avión comercial es un gran objeto de estudio de física. Tiene mucha ciencia e ingeniería detrás: desde cómo funcionan las turbinas y la física del vuelo, hasta los materiales con los que hay que construirlo para que resista todas las fuerzas a las que se expone. Acelera de cero a más de 300 km/h en menos de un minuto, se despega del suelo y sube varios kilómetros en cuestión de minutos. Todo eso es medible. Y resulta que un buen instrumento de medición, además accesible, es el teléfono: los celulares modernos traen acelerómetro, giroscopio, magnetómetro, barómetro y GPS.
 
-La aplicación se llama Phyphox, es una aplicación que ocupe en el laboratorio de mecánica durante la licenciatura, ya que los instrumentos de medición del laboratorio son analógicos y un poco viejos. Por lo que ocupar tu teléfono era una opcion viable. Asi que tenia la duda sobre la capacidad de la aplicación en esta situación. 
+La aplicación se llama phyphox. La usé en el laboratorio de mecánica durante la licenciatura, porque los instrumentos del laboratorio son analógicos y ya bastante viejos; ocupar el teléfono era una opción viable. Así que tenía la duda de qué tanto aguantaba la aplicación en una situación como esta, muy lejos de una mesa de laboratorio.
+
+Antes de entrar a los datos conviene dejar claras las cantidades que van a aparecer y por qué cada una dice algo distinto.
+
+### Velocidad y aceleración
+
+La velocidades el cambio de posición en el tiempo, y es un vector; tiene magnitud, dirección y sentido. En este experimento el GPS la reporta directamente como rapidez sobre el suelo.  Durante el despegue la dirección es prácticamente constante, el avión va en línea recta por la pista, así que lo único que cambia es la magnitud.
+
+La aceleración es el cambio de velocidad en el tiempo:
+
+$$\vec{a} = \frac{d\vec{v}}{dt}$$
+
+Si la curva de velocidad tiene pendiente pronunciada, la aceleración es grande; si la velocidad se aplana, la aceleración tiende a cero aunque el avión siga yendo rápido. Ir rápido y acelerar no son lo mismo, y esa distinción es justamente la que explica por qué el despegue se siente y el vuelo de crucero no, lo que el cuerpo percibe no es la velocidad, es el cambio de velocidad.
+
+Un detalle importante del sensor, que confunde a mucha gente la primera vez. Un acelerómetro en reposo sobre una mesa no marca cero, marca 9.81 m/s² en el eje vertical. Lo que mide no es la aceleración respecto al suelo sino la fuerza por unidad de masa que actúa sobre él, incluida la reacción normal que lo sostiene contra la gravedad. Por eso en las gráficas el eje $z$ oscila alrededor de $g$ y no de cero, y por eso cuando $a_z$ baja de 9.81 sentimos ligereza en el estómago: no es que la gravedad haya cambiado, es que el piso nos está empujando con menos fuerza.
+
+phyphox entrega dos canales distintos por esto mismo: la aceleración con gravedad (lo que el sensor mide crudo) y la aceleración lineal (con la gravedad ya restada por el sistema operativo). Aquí uso la primera, porque el término gravitatorio es información útil, no un estorbo.
+
+### Desviación estándar: medir el temblor
+
+La desviación estándar mide qué tanto se dispersan los valores de una señal alrededor de su promedio:
+
+$$\sigma = \sqrt{\langle x^2 \rangle - \langle x \rangle^2}$$
+
+Si todos los valores son casi iguales, $\sigma$ es pequeña; si oscilan mucho, $\sigma$ es grande. Es una medida de variabilidad, no de magnitud, y esa diferencia es la clave de todo el análisis.
+
+La idea es la siguiente. El promedio de la aceleración me dice cuánto empuja el avión; la desviación estándar me dice cuánto tiembla. Son dos preguntas independientes, el avión puede empujar fuerte sin temblar (en el aire) o temblar mucho sin empujar (rodando despacio sobre pavimento irregular).
+
+### Sustentación: por qué el avión se levanta
+
+La fuerza que sostiene al avión en el aire es la sustentación, y depende de cuatro cosas:
+
+$$L = \tfrac{1}{2}\,\rho\, v^2 S\, C_L$$
+
+donde $\rho$ es la densidad del aire, $v$ la velocidad respecto al aire, $S$ la superficie del ala y $C_L$ el coeficiente de sustentación (que depende del ángulo de ataque y de la configuración de flaps).
+
+Lo importante para este post está en los dos primeros factores. La sustentación crece con el cuadrado de la velocidad, así que duplicar la velocidad cuadruplica la fuerza que levanta al avión  por eso hay que correr por la pista antes de poder despegar. Y crece linealmente con la densidad del aire, que a su vez disminuye con la altitud.
+
+### Presión, altitud y atmósfera estándar
+
+La presión atmosférica disminuye con la altura porque arriba de uno hay menos columna de aire. La relación no es lineal, y el modelo estándar internacional (ISA) para la tropósfera da:
+
+$$h = 44330 \left[ 1 - \left( \frac{p}{p_0} \right)^{1/5.255} \right]$$
+
+con $p_0 = 1013.25$ hPa como presión de referencia a nivel del mar. Con esta fórmula, un barómetro se convierte en altímetro y de hecho así funcionan los altímetros de los aviones.
+
+Aquí aparece el problema conceptual central del experimento, y vale la pena anticiparlo, esta fórmula convierte presión en altura, pero la altura que devuelve es la del lugar donde está el sensor. Si el sensor va dentro de una cabina presurizada, lo que se obtiene no es la altitud del avión sino la altitud de cabina, la altura a la que estaría uno si esa presión fuera la del aire libre. Son dos números distintos, y confundirlos es un error fácil de cometer.
+
+Como referencia para leer las gráficas: al nivel del mar la presión ronda los 1013 hPa, en la Ciudad de México unos 780 hPa por sus 2 230 metros de altitud, y a la altitud de crucero típica de un vuelo comercial son unos 11 000 metros, apenas unos 225 hPa. Las cabinas se mantienen equivalentes a unos 2 000 metros como máximo, que es más o menos la presión de la Ciudad de México.
+
+### Giroscopio: los giros del avión
+
+El giroscopio mide velocidad angular, es decir qué tan rápido gira el teléfono alrededor de cada eje, en radianes por segundo. Los tres ejes corresponden a los tres movimientos de rotación de una aeronave: **cabeceo** (levantar o bajar el morro), **alabeo** (inclinar las alas) y **guiñada** (girar hacia los lados como un carro). Durante un despegue en línea recta estos valores deberían mantenerse cerca de cero.
+
 
 ## Metodología
 
@@ -123,7 +176,7 @@ Misma estructura, sin GPS. Aquí el panel de $a_z$ hace el trabajo que en el otr
 
 En las 5 gráficas notamos practicamente el mismo comportamiento que con el primero vuelo. Aunque con sus pocas diferencias dado el cambio de condiciones. La primera gráfica en este caso no hubo oportunidad de medir la velocidad por medio de GPS, aunque si mide la altitud. El cambio de condiciones en este caso, es que el vuelo ahora empezo al nivel del mar. Por lo que presuriza la cabina en el momento del despegue y sube hasta 160 metros. Los datos de altura son extraños, ya que el avión sube más, es por los sensores del teléfono, que el teléfono esta dentro de la cabina y mide la presión de la cabina. Al no tener GPS, estos valores salieron del sensor de presión. 
 
-La gráfica de aceleración es practicamente la misma forma que comentamos en el primer vuelo, en este caso la aceleración incial es un poco mayor. Las siguentes 2 gráficas, tiene el mismo comportamiento, es algo que se esperaba, estas 2 gráficas no dicen que las mediciones son reproducibles, nos da valides y nos dice lo estándar de un despegue de avión comercial de ese tipo. Aunque por expriencia en el vuelo, la curva roja de la cuarta gráfica se ve asi en el ascenso ya que el despegue es hacia el norte y tiene que dar la vuelta para ir en dirección de México. 
+La gráfica de aceleración es practicamente la misma forma que comentamos en el primer vuelo, en este caso la aceleración incial es un poco mayor. Las siguentes 2 gráficas, tiene el mismo comportamiento, es algo que se esperaba, estas 2 gráficas no dicen que las mediciones son reproducibles, nos da valides y nos dice lo estándar de un despegue de avión comercial de ese tipo. Aunque por expriencia en el vuelo, la cuarta gráfica se ve asi en la parte del ascenso, cuando el avión ya está en el aire, ya que el despegue es hacia el norte y tiene que dar la vuelta para ir en dirección de México. 
 
 La ultima gráfica nos dice que partimos de la presurización a nivel del mar y conforme aumentamos la altitud, llega a los valores minimos permitidos para nuestra salud, es un decaimiento constante, ya que no puede ser muy rápido, ya que puede causar problemas en cierto tipo de personas. Esta presión, recordando es la de la cabina, ya que la presión atmosferica debe de bajar los valores aún mas por la altura en la que llega el avión. 
 
@@ -153,11 +206,9 @@ Vale la pena ser explícito sobre lo que este experimento no puede afirmar
 
 ## Conclusiones
 
-1. **El instante del despegue es medible con precisión de décimas de segundo** usando la desviación estándar del acelerómetro a 500 Hz. La vibración de la pista cae de 2.0 a 0.35 m/s² en el momento en que las ruedas se separan.
-2. **Despegar en la Ciudad de México toma un 50 % más de carrera que en Miami** (48 s contra 32 s), consistente con la menor densidad del aire a 2 230 m.
-3. **El barómetro de un celular en un avión mide la cabina, no la atmósfera.** Mientras el avión subía 1 669 m, la presión interna cayó apenas 8 hPa, frente a los ~150 hPa que corresponderían al exterior. Es una medición accidental pero directa del sistema de presurización.
-4. **La cabina empieza a presurizarse antes del despegue**, con un aumento de ~6 hPa durante la carrera, observado en los dos vuelos.
-5. Un teléfono es un instrumento científico sorprendentemente capaz — siempre que uno sea honesto sobre **qué** está midiendo.
+Empecé este experimento preguntandome que mediría Phyphox en el vuelo de un avión y que podemos aprender de eso. La parte fácil resultó ser el instante exacto en que las ruedas dejan el piso queda registrado con precisión de décimas de segundo, y no en la señal más obvia. La aceleración vertical es ambigua porque el avión rota, acelera y sube al mismo tiempo; la vibración, en cambio, no admite interpretaciones. Mientras hay contacto con el pavimento hay temblor, y cuando el contacto termina el temblor se corta de golpe, de 2.0 a 0.35 m/s². Que el dato más limpio del análisis venga de la parte que normalmente se descarta como ruido es, creo, la lección metodológica que me llevo.
+
+La comparación entre los dos aeropuertos confirmó algo que la física predice, despegar a 2 230 metros cuesta un 50 % más de carrera que hacerlo a nivel del mar, 48 segundos contra 32. Con una densidad del aire aproximadamente un 20 % menor, el avión necesita alcanzar una velocidad mayor para generar la misma sustentación, y llegar a esa velocidad exige más pista y más tiempo. Conviene ser honesto sobre el alcance de esta afirmación, con dos vuelos no puedo aislar la altitud del resto de las variables, peso, modelo, temperatura, viento, criterio del piloto, así que lo correcto es decir que los datos son consistentes con la explicación por densidad, no que la demuestran.
 
 ## Referencias
 
