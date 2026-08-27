@@ -1,0 +1,194 @@
+---
+title: "Medí el despegue de un avión con mi celular"
+subtitle: "Qué se puede aprender de un vuelo comercial con los sensores que ya traes en el bolsillo"
+author: "TU NOMBRE"
+date: 2026-08-25
+categories: [física, mediciones, phyphox, aviación]
+image: comparacion_despegues.png
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+---
+
+## Introducción
+
+Un avión comercial es un laboratorio de física que además te lleva de vacaciones. Acelera de cero a más de 300 km/h en menos de un minuto, se despega del suelo, sube varios kilómetros y mantiene, mientras tanto, una burbuja de aire a presión distinta a la de afuera. Todo eso deja huellas medibles, y resulta que el instrumento para detectarlas ya viene en el bolsillo: un teléfono tiene acelerómetro, giroscopio, magnetómetro, barómetro y GPS.
+
+La pregunta que quise responder es simple: **¿cuánto de la física de un despegue se puede reconstruir sin más equipo que un celular?**
+
+La respuesta corta es: bastante más de lo que esperaba, incluyendo una cosa que no estaba buscando y que terminó siendo lo más interesante del experimento. El barómetro del teléfono no mide la atmósfera. Mide la cabina. Y esa diferencia, que al principio parecía un error de medición, es en realidad una medición directa —y accidental— del sistema de presurización del avión.
+
+::: {.callout-note}
+## Lo que vas a encontrar aquí
+Tres cosas medidas, no estimadas: el instante exacto en que las ruedas dejan el piso, la diferencia entre despegar a 2 230 m y hacerlo a nivel del mar, y la brecha entre la altitud real del avión y la altitud que "siente" tu cuerpo dentro de la cabina.
+:::
+
+## Metodología
+
+### Los datos
+
+Grabé con [phyphox](https://phyphox.org/) durante dos vuelos de Aeroméxico, ida y vuelta:
+
+| | Vuelo de ida | Vuelo de regreso |
+|---|---|---|
+| Fecha | 14 de julio de 2026 | 21 de julio de 2026 |
+| Ruta | CDMX (MEX) → Miami | Miami (MIA) → CDMX |
+| Elevación de la pista | ≈ 2 230 m | ≈ 0 m (nivel del mar) |
+| Duración grabada | 645 s | 782 s |
+| GPS | Sí (360 puntos) | **No** |
+
+El teléfono iba en la mano o sobre la mesita, sin fijación, con el experimento *Raw Sensors* de phyphox registrando todos los canales disponibles en paralelo.
+
+### Sensores y frecuencias
+
+| Sensor | Canales | Frecuencia |
+|---|---|---|
+| Acelerómetro (incluye gravedad) | $a_x$, $a_y$, $a_z$ | 500 Hz |
+| Giroscopio | $\omega_x$, $\omega_y$, $\omega_z$ | 500 Hz |
+| Aceleración lineal (sin gravedad) | $l_x$, $l_y$, $l_z$ | 100 Hz |
+| Magnetómetro | $B_x$, $B_y$, $B_z$ | 100 Hz |
+| Barómetro | presión | 10 Hz |
+| GPS | lat, lon, altitud, velocidad, rumbo | 1 Hz |
+
+El acelerómetro a 500 Hz es el canal clave, y no por la precisión del valor medio sino por el **ruido**: a esa frecuencia se puede medir cuánto vibra el avión, y ahí está escondido el momento del despegue.
+
+### Cómo detecté el instante del despegue
+
+Este es el truco central del análisis. La idea intuitiva sería buscar un cambio en la aceleración vertical, pero esa señal es ambigua: el avión rota el morro, acelera y sube todo al mismo tiempo, y $a_z$ se mueve por varias razones a la vez.
+
+La señal limpia es otra. Mientras el avión rueda, las ruedas transmiten cada irregularidad del pavimento a la estructura, y de ahí al teléfono. En el momento en que el tren de aterrizaje deja de tocar el suelo, esa fuente de vibración **desaparece de golpe**. No se atenúa: se corta.
+
+Para medirlo calculé la magnitud de la aceleración
+
+$$|a| = \sqrt{a_x^2 + a_y^2 + a_z^2}$$
+
+y luego, en ventanas de 0.1 s (50 muestras a 500 Hz), su desviación estándar:
+
+$$\sigma_{\text{vib}} = \sqrt{\langle |a|^2 \rangle - \langle |a| \rangle^2}$$
+
+Esto descarta el valor medio —que incluye la gravedad y el empuje— y deja sólo el temblor. El resultado es un detector de contacto con el suelo casi binario.
+
+### Altitud a partir de la presión
+
+Para convertir presión en altura usé la fórmula barométrica de la atmósfera estándar internacional (ISA):
+
+$$h = 44330 \left[ 1 - \left( \frac{p}{p_0} \right)^{1/5.255} \right]$$
+
+con $p_0 = 1013.25$ hPa. Como se verá, aplicar esto a los datos del teléfono da un resultado engañoso, y esa es justamente la parte interesante.
+
+### Reproducibilidad
+
+Todo el procesamiento está en Python (NumPy, SciPy, Matplotlib). Los archivos crudos exportados de phyphox y los scripts de análisis están en [ENLACE AL REPO].
+
+::: {.callout-warning}
+## Dos problemas honestos con los datos
+
+**1. La grabación tiene cortes ocultos.** phyphox pausa el reloj del experimento cuando la app se interrumpe, así que al reanudar el tiempo continúa como si nada. En los datos se ve como un salto físicamente imposible: en el vuelo de regreso, la presión cae 199 hPa en 0.2 s. Ningún avión hace eso. Detecté cortes en $t = 479$ s (ida) y $t = 515$ s (regreso), y **corté todos los análisis antes de esos puntos**.
+
+**2. El sensor de actitud está inservible.** Los canales de *pitch* y *roll* dan valores de hasta ±10 000°, probablemente porque el teléfono iba suelto en la mano y el filtro de orientación nunca convergió. No usé nada de ese sensor.
+:::
+
+## Resultados
+
+### El vuelo de ida: CDMX → Miami
+
+![Despegue y ascenso inicial desde CDMX. Los cinco paneles comparten el eje de tiempo; las líneas verticales marcan el inicio de la carrera y el instante del despegue.](vuelo_A_cdmx_despegue.png)
+
+La secuencia se lee de arriba abajo:
+
+- **$t = 0$–84 s** — Rodaje. Velocidad GPS bajo 30 km/h, vibración baja. En el giroscopio se ve un pico de guiñada alrededor de $t=76$ s: el avión girando para alinearse con la pista.
+- **$t = 84$ s** — Empieza la carrera. $a_y$ salta de ~0.3 a **+2.5 m/s²** y se mantiene ahí. Son los motores a potencia de despegue.
+- **$t = 131.6$ s** — Las ruedas dejan el piso. La vibración RMS se desploma de **2.0 a 0.35 m/s²**. La velocidad GPS en ese instante es de **371 km/h**.
+- **$t \gtrsim 165$ s** — Ascenso establecido, a un promedio de **6.2 m/s (≈ 1 220 ft/min)**.
+
+Al final del tramo limpio el avión está a **3 898 m** y **567 km/h**, habiendo ganado 1 657 m de altura en 267 s.
+
+### El vuelo de regreso: Miami → CDMX
+
+![Despegue desde Miami. Sin GPS en este vuelo, así que la altitud mostrada es la de cabina, derivada del barómetro.](vuelo_B_miami_despegue.png)
+
+Misma estructura, sin GPS. Aquí el panel de $a_z$ hace el trabajo que en el otro vuelo hacía la velocidad:
+
+- **$t = 192$ s** — Inicio de la carrera, con $a_y$ llegando a **+2.9 m/s²**.
+- **$t = 224$ s** — Despegue. La carrera duró apenas **32 s**.
+- **$t \approx 247$ s** — $a_z$ cae a **7.66 m/s² = 0.78 g**. Esa es, literalmente, la sensación de ligereza en el estómago cuando el avión reduce el ritmo de ascenso tras el empujón inicial.
+
+### La comparación
+
+![Los dos despegues alineados en el instante en que las ruedas dejan el piso ($t = 0$).](comparacion_despegues.png)
+
+Poner los dos vuelos en el mismo eje, con el origen en el despegue, hace visible lo que ninguna gráfica individual mostraba.
+
+**La carrera de despegue en CDMX duró 48 s; la de Miami, 32 s.** Un 50 % más de tiempo sobre la pista para el mismo tipo de operación.
+
+Esto tiene una explicación directa. La sustentación depende de la densidad del aire:
+
+$$L = \tfrac{1}{2}\,\rho\, v^2 S\, C_L$$
+
+A 2 230 m de altura la densidad del aire es aproximadamente un 20 % menor que a nivel del mar. Con menos $\rho$, el avión necesita más $v$ para generar la misma $L$, y llegar a esa velocidad mayor exige más pista y más tiempo. El aeropuerto de la Ciudad de México es conocido por esto entre pilotos: la altitud penaliza tanto la sustentación como el empuje de los motores.
+
+### El hallazgo que no buscaba
+
+Y aquí viene lo bueno. Miren el último panel de la primera figura.
+
+Durante el ascenso desde CDMX, el GPS registra una subida real de **2 229 a 3 898 m**. La presión atmosférica exterior, a esas altitudes, debería caer de unos 780 a unos 630 hPa: **una caída de ~150 hPa**.
+
+El barómetro del teléfono registró una caída de **8 hPa**.
+
+No es un error del sensor. El barómetro está funcionando perfectamente — lo que pasa es que **no está midiendo la atmósfera, está midiendo la cabina**. El sistema de presurización del avión mantiene el interior a una presión mucho mayor que la exterior, y el teléfono, que va adentro, sólo puede medir lo de adentro.
+
+Dicho de otro modo: mientras el avión subía 1 669 m reales, **la cabina "subió" unos 90 m**.
+
+Hay un segundo detalle, más sutil, que aparece en los dos vuelos: **la presión de cabina sube ~6 hPa durante la carrera de despegue**, antes de que el avión se despegue del suelo. El sistema empieza a presurizar en tierra, de modo que la cabina arranca ligeramente por encima de la presión ambiente. En la gráfica de Miami esto se ve como una altitud de cabina que baja por debajo del nivel del mar justo antes del despegue.
+
+## Discusión
+
+### Qué mide realmente cada sensor
+
+La lección metodológica del experimento es que **el sensor mide lo que lo rodea, no lo que uno quiere medir**. Suena obvio escrito así, pero es exactamente el error que casi cometo: aplicar la fórmula barométrica a los datos del teléfono y reportar "altitud del avión". El número que sale de ahí no es la altitud del avión; es la altitud equivalente de la cabina, que es una cantidad distinta y bastante más aburrida... salvo que uno se dé cuenta de que acaba de medir el sistema de presurización.
+
+Esto explica también por qué el vuelo de regreso es más limitado: sin GPS no hay forma de conocer la altitud real, y la única señal disponible es precisamente la que no responde a la altitud real. Por eso en el reel de ese vuelo la trayectoria del avión es ilustrativa, no medida.
+
+### Por qué la vibración es mejor detector que la aceleración
+
+El resultado más sólido del análisis viene de tirar la información y quedarse con el ruido. La desviación estándar del acelerómetro no depende de la orientación del teléfono, ni de si el avión está acelerando, ni de la gravedad — sólo de si hay o no una fuente de vibración mecánica acoplada. Como el contacto rueda-pavimento es esa fuente, y desaparece de forma discreta, el detector es casi ideal.
+
+Es un buen ejemplo de que **la parte "sucia" de una señal a veces contiene el dato más limpio**.
+
+### Limitaciones
+
+Vale la pena ser explícito sobre lo que este experimento no puede afirmar:
+
+- **El teléfono no estaba fijo.** Los ejes $x$, $y$, $z$ no coinciden con los ejes del avión, y esa relación pudo cambiar durante el vuelo. Los valores de $a_y$ como "eje longitudinal" son una aproximación razonable durante el despegue —cuando el teléfono estuvo quieto— pero no una calibración.
+- **La altitud GPS tiene error propio**, típicamente peor que la horizontal, y la serie tiene huecos (uno de 93 s).
+- **$n = 2$.** Dos vuelos no permiten separar el efecto de la altitud del aeropuerto de otras variables: modelo de avión, peso al despegue, temperatura, viento, procedimiento del piloto. La explicación por densidad del aire es física y sólida, pero estos datos son *consistentes* con ella, no una demostración.
+- **Las tasas de ascenso** están calculadas sobre muestras GPS contiguas para evitar artefactos de los huecos; hacerlo ingenuamente daba valores absurdos de 8 000 ft/min.
+
+### Qué haría diferente
+
+Fijar el teléfono a una superficie con orientación conocida, verificar que el GPS esté activo antes de despegar (el vuelo de regreso perdió esa mitad del experimento), y no dejar que la app se pause — los cortes ocultos son el problema más traicionero porque no dejan hueco visible en el eje de tiempo.
+
+## Conclusiones
+
+1. **El instante del despegue es medible con precisión de décimas de segundo** usando la desviación estándar del acelerómetro a 500 Hz. La vibración de la pista cae de 2.0 a 0.35 m/s² en el momento en que las ruedas se separan.
+2. **Despegar en la Ciudad de México toma un 50 % más de carrera que en Miami** (48 s contra 32 s), consistente con la menor densidad del aire a 2 230 m.
+3. **El barómetro de un celular en un avión mide la cabina, no la atmósfera.** Mientras el avión subía 1 669 m, la presión interna cayó apenas 8 hPa, frente a los ~150 hPa que corresponderían al exterior. Es una medición accidental pero directa del sistema de presurización.
+4. **La cabina empieza a presurizarse antes del despegue**, con un aumento de ~6 hPa durante la carrera, observado en los dos vuelos.
+5. Un teléfono es un instrumento científico sorprendentemente capaz — siempre que uno sea honesto sobre **qué** está midiendo.
+
+## Referencias
+
+- Staacks, S., Hütz, S., Heinke, H., & Stampfer, C. (2018). Advanced tools for smartphone-based experiments: phyphox. *Physics Education*, 53(4), 045009.
+- Organización de Aviación Civil Internacional (1993). *Manual of the ICAO Standard Atmosphere* (Doc 7488), 3.ª ed.
+- Anderson, J. D. (2016). *Introduction to Flight*, 8.ª ed. McGraw-Hill. — capítulos sobre sustentación y rendimiento en despegue.
+- Administración Federal de Aviación de EE. UU. (2016). *Pilot's Handbook of Aeronautical Knowledge* (FAA-H-8083-25B). — efectos de la altitud de densidad.
+- Documentación de phyphox sobre el experimento *Raw Sensors*: <https://phyphox.org/sensordb/>
+
+---
+
+::: {.callout-tip}
+## Reproduce esto tú mismo
+Sólo hace falta la app phyphox, un asiento con ventanilla y acordarse de darle *play* antes del rodaje. Si haces la medición en un aeropuerto a distinta altitud, me interesaría comparar datos.
+:::
